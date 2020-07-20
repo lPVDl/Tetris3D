@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947f6be240844e44596f105256ccf798, type: 3}
+  m_Name: CoreBlockInstaller
+  m_EditorClassIdentifier: 
+  _blockSectionView: {fileID: 8536506102793298455, guid: dee9f3797b35be64f8deb3b23f4b4fe6,
+    type: 3}
