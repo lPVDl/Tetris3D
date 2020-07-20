@@ -21,8 +21,8 @@ namespace Game.Core.Level
             return new Vector3()
             {
                 x = index.x + (1 - _levelModel.Size.x) * 0.5f,
-                z = index.y + (1 - _levelModel.Size.y) * 0.5f,
-                y = index.z + 0.5f,
+                z = index.z + (1 - _levelModel.Size.y) * 0.5f,
+                y = index.y + 0.5f,
             };
         }
     }

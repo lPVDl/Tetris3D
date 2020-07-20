@@ -12,5 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947f6be240844e44596f105256ccf798, type: 3}
   m_Name: CoreBlockInstaller
   m_EditorClassIdentifier: 
-  _blockSectionView: {fileID: 8536506102793298455, guid: dee9f3797b35be64f8deb3b23f4b4fe6,
-    type: 3}
+  _blockViewFactoryConfig:
+    _blockSectionView: {fileID: 8536506102793298455, guid: dee9f3797b35be64f8deb3b23f4b4fe6,
+      type: 3}
+    _blockView: {fileID: -8689977224901027253, guid: 13ff03b3717171f4289becc93ecce86e,
+      type: 3}
+  _blockShapes:
+  - _sections:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: -1, z: 0}
+    - {x: 1, y: 0, z: 0}
+    - {x: -1, y: 0, z: 0}
+    _shapeType: 1

@@ -4,16 +4,21 @@ namespace Game.Core.Block
 {
     public class BlockViewFactory : IBlockViewFactory
     {
-        private readonly BlockSectionView _sectionView;
+        private readonly BlockViewFactoryConfig _config;
 
-        public BlockViewFactory(BlockSectionView sectionView)
+        public BlockViewFactory(BlockViewFactoryConfig config)
         {
-            _sectionView = sectionView;
+            _config = config;
         }
 
         public IBlockSectionView CreateSection()
         {
-            return GameObject.Instantiate(_sectionView);
+            return GameObject.Instantiate(_config.BlockSectionView);
+        }
+
+        public IBlockView CreateBlock()
+        {
+            return GameObject.Instantiate(_config.BlockView);
         }
     }
 }

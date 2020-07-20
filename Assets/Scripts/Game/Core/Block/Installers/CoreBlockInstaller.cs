@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Zenject;
 
 namespace Game.Core.Block
@@ -6,12 +7,14 @@ namespace Game.Core.Block
     [CreateAssetMenu(menuName = "ScriptableObject/Installers/Game/Core/Block", fileName = "CoreBlockInstaller")]
     public class CoreBlockInstaller : ScriptableObjectInstaller
     {
-        [SerializeField] private BlockSectionView _blockSectionView;
+        [SerializeField] private BlockViewFactoryConfig _blockViewFactoryConfig;
+        [SerializeField] private List<BlockShapeData> _blockShapes;
 
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<BlockViewFactory>().AsSingle().WithArguments(_blockSectionView);
-            Container.BindInterfacesTo<TestBlockSpawner>().AsSingle();
+            Container.BindInterfacesTo<BlockViewFactory>().AsSingle().WithArguments(_blockViewFactoryConfig);
+            Container.BindInterfacesTo<BlockShapeDataProvider>().AsSingle().WithArguments(_blockShapes);
+            Container.BindInterfacesTo<BlockModelFactory>().AsSingle();
         }
     }
 }
