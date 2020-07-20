@@ -3,7 +3,7 @@ using Zenject;
 
 namespace Game.Common.GameEvents
 {
-    [CreateAssetMenu(menuName = "ScriptableObject/Installers/Common/GameEvents", fileName = "CommonGameEventsInstaller")]
+    [CreateAssetMenu(menuName = "ScriptableObject/Installers/Game/Common/GameEvents", fileName = "CommonGameEventsInstaller")]
     public class CommonGameEventsInstaller : ScriptableObjectInstaller
     {
         public override void InstallBindings()
