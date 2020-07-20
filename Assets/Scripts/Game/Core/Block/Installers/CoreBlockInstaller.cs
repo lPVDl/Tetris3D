@@ -15,6 +15,10 @@ namespace Game.Core.Block
             Container.BindInterfacesTo<BlockViewFactory>().AsSingle().WithArguments(_blockViewFactoryConfig);
             Container.BindInterfacesTo<BlockShapeDataProvider>().AsSingle().WithArguments(_blockShapes);
             Container.BindInterfacesTo<BlockModelFactory>().AsSingle();
+            Container.BindInterfacesTo<BlockModelStorage>().AsSingle();
+            Container.BindInterfacesTo<BlockViewBuilder>().AsSingle();
+            Container.BindInterfacesTo<BlockDrawingController>().AsSingle();
+            Container.BindInterfacesTo<TestBlockSpawner>().AsSingle();
         }
     }
 }

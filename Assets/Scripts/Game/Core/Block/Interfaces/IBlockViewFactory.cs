@@ -2,6 +2,7 @@
 {
     public interface IBlockViewFactory
     {
+        IBlockView CreateBlock();
         IBlockSectionView CreateSection();
     }
 }

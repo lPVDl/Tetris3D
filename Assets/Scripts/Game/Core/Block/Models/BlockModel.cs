@@ -7,7 +7,6 @@ namespace Game.Core.Block
     {
         public event Action<IBlockModel> OnPositionChanged;
         public event Action<IBlockModel> OnRotationChanged;
-        public event Action<IBlockModel> OnDestroyed;
 
         public BlockShapeData Shape { get; }
 
@@ -41,11 +40,6 @@ namespace Game.Core.Block
             Shape = shape;
             Position = position;
             Rotation = rotation;
-        }
-
-        public void Dispose()
-        {
-            OnDestroyed?.Invoke(this);
         }
     }
 }
