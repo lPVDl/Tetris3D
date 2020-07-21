@@ -9,6 +9,7 @@ namespace Game.Core.BlockGravity
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<BlockGravityController>().AsSingle();
+            Container.BindInterfacesTo<BlockGravitySpeedController>().AsSingle();
         }
     }
 }
