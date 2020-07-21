@@ -26,6 +26,9 @@ namespace Game.Core.Block
                 var section = _viewFactory.CreateSection();
                 blockView.AttachSection(section);
                 section.SetPosition(worldPos + blockModel.Rotation * pos);
+
+                // TODO: Many colors may break batching. Should change way meshes drawn.
+                // section.SetColor()
             }
 
             return blockView;
