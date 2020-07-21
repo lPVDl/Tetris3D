@@ -7,6 +7,8 @@ namespace Game.Core.GameCamera
     /// </summary>
     public interface IGameCameraView
     {
+        Vector3 Forward { get; }
+
         /// <summary>
         /// Sets a point around which camera is rotated.
         /// </summary>

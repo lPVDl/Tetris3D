@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.Core.Level;
+using System;
 using System.Collections.Generic;
 
 namespace Game.Core.Block
@@ -7,13 +8,16 @@ namespace Game.Core.Block
     {
         private readonly IBlockModelStorage _blockModelStorage;
         private readonly IBlockViewBuilder _blockViewBuilder;
+        private readonly ILevelViewTransform _viewTransform;
         private readonly Dictionary<IBlockModel, IBlockView> _blockToView;
 
         public BlockDrawingController(IBlockModelStorage blockModelStorage,
-                                      IBlockViewBuilder blockViewBuilder)
+                                      IBlockViewBuilder blockViewBuilder,
+                                      ILevelViewTransform viewTransform)
         {
             _blockModelStorage = blockModelStorage;
             _blockViewBuilder = blockViewBuilder;
+            _viewTransform = viewTransform;
             _blockToView = new Dictionary<IBlockModel, IBlockView>();
 
             _blockModelStorage.OnBlockAdded += OnBlockAdded;
@@ -48,12 +52,13 @@ namespace Game.Core.Block
 
         private void OnBlockRotationChanged(IBlockModel block)
         {
-            _blockToView[block].SetPosition(block.Position);
+            _blockToView[block].SetRotation(block.Rotation);
         }
 
         private void OnBlockPositionChanged(IBlockModel block)
         {
-            _blockToView[block].SetRotation(block.Rotation);
+            var worldPos = _viewTransform.TransformPosition(block.Position);
+            _blockToView[block].SetPosition(worldPos);
         }
 
         public void Dispose()

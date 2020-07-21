@@ -4,6 +4,8 @@ namespace Game.Core.GameCamera
 {
     public class GameCameraView : MonoBehaviour, IGameCameraView
     {
+        public Vector3 Forward => transform.forward;
+
         public void SetPosition(Vector3 position)
         {
             transform.position = position;

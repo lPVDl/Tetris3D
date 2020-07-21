@@ -29,7 +29,7 @@ namespace Game.Core.GameCamera
 
         private void UpdateCameraRotation()
         {
-            var xAxis = _cameraInput.VerticalRotation * 90;
+            var xAxis = _cameraInput.VerticalRotation * 80;
             var yAxis = _cameraInput.HorizontalRotation * 360;
             _cameraView.SetRotation(xAxis, yAxis);
         }
