@@ -18,6 +18,7 @@ namespace Game.Core.Block
             Container.BindInterfacesTo<BlockModelStorage>().AsSingle();
             Container.BindInterfacesTo<BlockViewBuilder>().AsSingle();
             Container.BindInterfacesTo<BlockDrawingController>().AsSingle();
+            Container.BindInterfacesTo<BlockShapeUtil>().AsSingle();
         }
     }
 }

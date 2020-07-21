@@ -1,4 +1,5 @@
 ﻿using Game.Core.Block;
+using System.Linq;
 using UnityEngine;
 
 namespace Game.Core.Level
@@ -6,36 +7,19 @@ namespace Game.Core.Level
     public class LevelPhysicsController : ILevelPhysicsController
     {
         private readonly ILevelModel _levelModel;
-        private readonly ILevelViewTransform _levelTransform;
+        private readonly IBlockShapeUtil _shapeUtil;
 
         public LevelPhysicsController(ILevelModel levelModel,
-                                      ILevelViewTransform levelTransform)
+                                      IBlockShapeUtil shapeUtil)
         {
             _levelModel = levelModel;
-            _levelTransform = levelTransform;
+            _shapeUtil = shapeUtil;
         }
 
         public bool CheckShapeInsideLevelBounds(Vector3Int position, Quaternion rotation, BlockShapeData shape)
         {
-            var center = _levelTransform.TransformPosition(position);
-            foreach (var seg in shape.Sections)
-            {
-                var pos = center + rotation * seg;
-                var index = _levelTransform.InverseTransformPosition(pos);
-                if (!CheckPointInsideLevelBounds(index))
-                    return false;
-            }
-
-            return true;
-        }
-
-        private bool CheckPointInsideLevelBounds(Vector3Int index)
-        {
-            if (index.x < 0 || index.x >= _levelModel.Size.x) return false;
-            if (index.y < 0 || index.y >= _levelModel.Size.y) return false;
-            if (index.z < 0 || index.z >= _levelModel.Size.z) return false;
-
-            return true;
+            return _shapeUtil.IterateBlockSections(position, rotation, shape)
+                .All(p => _levelModel.CheckInsideBounds(p));
         }
     }
 }

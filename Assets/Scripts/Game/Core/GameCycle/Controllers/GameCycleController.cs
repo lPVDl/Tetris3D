@@ -1,7 +1,7 @@
 ﻿using Game.Common.Coroutines;
 using Game.Common.GameEvents;
-using Game.Core.Block;
 using Game.Core.BlockGravity;
+using Game.Core.BlockJoin;
 using Game.Core.BlockSpawn;
 using System.Collections;
 using UnityEngine;
@@ -13,17 +13,17 @@ namespace Game.Core.GameCycle
         private readonly ICoroutineManager _coroutineManager;
         private readonly IBlockSpawnController _spawnController;
         private readonly IBlockGravityController _gravityController;
-        private readonly IBlockModelStorage _modelStorage;
+        private readonly IBlockJoinController _joinController;
 
         public GameCycleController(ICoroutineManager coroutineManager,
                                    IBlockSpawnController spawnController,
                                    IBlockGravityController gravityController,
-                                   IBlockModelStorage modelStorage)
+                                   IBlockJoinController joinController)
         {
             _coroutineManager = coroutineManager;
             _spawnController = spawnController;
             _gravityController = gravityController;
-            _modelStorage = modelStorage;
+            _joinController = joinController;
         }
 
         public void Initialize()
@@ -40,7 +40,7 @@ namespace Game.Core.GameCycle
                 while (_gravityController.TryApplyGravity(Time.deltaTime)) 
                     yield return null;
 
-                _modelStorage.RemoveBlock(_modelStorage.Blocks[0]);
+                _joinController.JoinBlock();
             }
         }
     }
