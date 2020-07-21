@@ -1,5 +1,4 @@
-﻿using Game.Core.Block;
-using Game.Core.GameCamera;
+﻿using Game.Core.GameCamera;
 using System;
 using UnityEngine;
 
@@ -11,15 +10,15 @@ namespace Game.Core.BlockMotion
     {
         private readonly IBlockMotionInputController _inputController;
         private readonly IGameCameraView _gameCamera;
-        private readonly IBlockModelStorage _blockModelStorage;
+        private readonly IBlockMotionController _motionController;
 
         public BlockRotationHandler(IBlockMotionInputController inputController,
                                     IGameCameraView gameCamera,
-                                    IBlockModelStorage blockModelStorage)
+                                    IBlockMotionController motionController)
         {
             _inputController = inputController;
             _gameCamera = gameCamera;
-            _blockModelStorage = blockModelStorage;
+            _motionController = motionController;
 
             _inputController.RegisterListener(EBlockMotionEvent.RotateRight, OnRotateRight);
             _inputController.RegisterListener(EBlockMotionEvent.RotateLeft, OnRotateLeft);
@@ -27,25 +26,13 @@ namespace Game.Core.BlockMotion
             _inputController.RegisterListener(EBlockMotionEvent.RotateUp, OnRotateUp);
         }
 
-        private void OnRotateRight()
-        {
-            ApplyRotation(90, Vector3.up);
-        }
+        private void OnRotateRight() => TryApplyRotation(90, Vector3.up);
 
-        private void OnRotateLeft()
-        {
-            ApplyRotation(-90, Vector3.up);
-        }
+        private void OnRotateLeft() => TryApplyRotation(-90, Vector3.up);
 
-        private void OnRotateUp()
-        {
-            ApplyRotation(90, ComputeSideDirection());
-        }
+        private void OnRotateUp() => TryApplyRotation(90, ComputeSideDirection());
 
-        private void OnRotateDown()
-        {
-            ApplyRotation(-90, ComputeSideDirection());
-        }
+        private void OnRotateDown() => TryApplyRotation(-90, ComputeSideDirection());
 
         private Vector3 ComputeSideDirection()
         {
@@ -58,26 +45,9 @@ namespace Game.Core.BlockMotion
             return Abs(dir.z) > Abs(dir.x) ? zAxis : xAxis;
         }
 
-        private void ApplyRotation(float angle, Vector3 axis)
+        private void TryApplyRotation(float angle, Vector3 axis)
         {
-            var model = _blockModelStorage.Blocks[0];
-            var rotation =  Quaternion.AngleAxis(angle, axis) * model.Rotation;
-            model.Rotation = rotation;
-
-            // TODO: Find proper way to clamp rotation.
-            // model.Rotation = ClampRotation90(rotation);
-        }
-
-        private Quaternion ClampRotation90(Quaternion rotation)
-        {
-            var euler = rotation.eulerAngles;
-            euler = new Vector3()
-            {
-                x = (int)(euler.x / 90) * 90,
-                y = (int)(euler.y / 90) * 90,
-                z = (int)(euler.z / 90) * 90
-            };
-            return Quaternion.Euler(euler);
+            _motionController.TryRotateBlock(Quaternion.AngleAxis(angle, axis));
         }
 
         public void Dispose()

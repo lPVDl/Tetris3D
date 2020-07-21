@@ -8,7 +8,7 @@ namespace Game.Core.Level
 
         public LevelModel()
         {
-            Size = new Vector3(10, 10, 20);
+            Size = new Vector3(10, 20, 10);
         }
     }
 }

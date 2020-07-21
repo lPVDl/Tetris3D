@@ -1,5 +1,4 @@
-﻿using Game.Core.Block;
-using Game.Core.GameCamera;
+﻿using Game.Core.GameCamera;
 using System;
 using UnityEngine;
 
@@ -11,15 +10,15 @@ namespace Game.Core.BlockMotion
     {
         private readonly IBlockMotionInputController _inputController;
         private readonly IGameCameraView _gameCamera;
-        private readonly IBlockModelStorage _blockModelStorage;
+        private readonly IBlockMotionController _motionController;
 
         public BlockMovementHandler(IBlockMotionInputController inputController,
                                     IGameCameraView gameCamera,
-                                    IBlockModelStorage blockModelStorage)
+                                    IBlockMotionController motionController)
         {
             _inputController = inputController;
             _gameCamera = gameCamera;
-            _blockModelStorage = blockModelStorage;
+            _motionController = motionController;
 
             _inputController.RegisterListener(EBlockMotionEvent.MoveForward, OnMoveForward);
             _inputController.RegisterListener(EBlockMotionEvent.MoveBackward, OnMoveBackward);
@@ -27,25 +26,13 @@ namespace Game.Core.BlockMotion
             _inputController.RegisterListener(EBlockMotionEvent.MoveRight, OnMoveRight);
         }
 
-        private void OnMoveForward()
-        {
-            _blockModelStorage.Blocks[0].Position += ComputeForwardDirection();
-        }
+        private void OnMoveForward() => _motionController.TryMoveBlock(ComputeForwardDirection());
 
-        private void OnMoveBackward()
-        {
-            _blockModelStorage.Blocks[0].Position -= ComputeForwardDirection();
-        }
+        private void OnMoveBackward() => _motionController.TryMoveBlock(-ComputeForwardDirection());
 
-        private void OnMoveRight()
-        {
-            _blockModelStorage.Blocks[0].Position += ComputeRightDirection();
-        }
+        private void OnMoveRight() => _motionController.TryMoveBlock(ComputeRightDirection());
 
-        private void OnMoveLeft()
-        {
-            _blockModelStorage.Blocks[0].Position -= ComputeRightDirection();
-        }
+        private void OnMoveLeft() => _motionController.TryMoveBlock(-ComputeRightDirection());
 
         private Vector3Int ComputeForwardDirection()
         {

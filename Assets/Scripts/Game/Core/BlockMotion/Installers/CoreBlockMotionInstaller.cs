@@ -11,6 +11,7 @@ namespace Game.Core.BlockMotion
             Container.BindInterfacesTo<BlockMotionInputController>().AsSingle();
             Container.BindInterfacesTo<BlockMovementHandler>().AsSingle();
             Container.BindInterfacesTo<BlockRotationHandler>().AsSingle();
+            Container.BindInterfacesTo<BlockMotionController>().AsSingle();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Game.Core.Block
 
         public void Initialize()
         {
-            var block = _blockFactory.CreateBlock(EBlockShapeType.Shape1, Vector3Int.zero, Quaternion.identity);
+            var block = _blockFactory.CreateBlock(EBlockShapeType.Shape1, new Vector3Int(5, 0, 5), Quaternion.identity);
             _blockStorage.AddBlock(block);
         }
     }
