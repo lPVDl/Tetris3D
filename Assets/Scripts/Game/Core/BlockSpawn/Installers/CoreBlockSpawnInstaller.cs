@@ -11,7 +11,6 @@ namespace Game.Core.BlockSpawn
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<BlockSpawnController>().AsSingle().WithArguments(_spawnControllerConfig);
-            Container.BindInterfacesTo<TestSpawnInvoker>().AsSingle();
         }
     }
 }
