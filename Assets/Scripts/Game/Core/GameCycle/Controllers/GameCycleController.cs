@@ -2,6 +2,7 @@
 using Game.Common.GameEvents;
 using Game.Core.BlockGravity;
 using Game.Core.BlockJoin;
+using Game.Core.BlockMerge;
 using Game.Core.BlockSpawn;
 using System.Collections;
 using UnityEngine;
@@ -14,16 +15,19 @@ namespace Game.Core.GameCycle
         private readonly IBlockSpawnController _spawnController;
         private readonly IBlockGravityController _gravityController;
         private readonly IBlockJoinController _joinController;
+        private readonly IBlockMergeController _mergeController;
 
         public GameCycleController(ICoroutineManager coroutineManager,
                                    IBlockSpawnController spawnController,
                                    IBlockGravityController gravityController,
-                                   IBlockJoinController joinController)
+                                   IBlockJoinController joinController,
+                                   IBlockMergeController mergeController)
         {
             _coroutineManager = coroutineManager;
             _spawnController = spawnController;
             _gravityController = gravityController;
             _joinController = joinController;
+            _mergeController = mergeController;
         }
 
         public void Initialize()
@@ -41,6 +45,8 @@ namespace Game.Core.GameCycle
                     yield return null;
 
                 _joinController.JoinBlock();
+
+                _mergeController.TryMergeBlocks();
             }
         }
     }

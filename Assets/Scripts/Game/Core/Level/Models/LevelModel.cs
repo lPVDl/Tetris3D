@@ -7,6 +7,7 @@ namespace Game.Core.Level
     {
         public event Action<Vector3Int> OnBlockAdded;
         public event Action<Vector3Int> OnBlockRemoved;
+        public event Action<Vector3Int, Vector3Int> OnBlockMoved;
 
         public Vector3Int Size { get; private set; }
 
@@ -54,6 +55,18 @@ namespace Game.Core.Level
             if (index.z < 0 || index.z >= Size.z) return false;
 
             return true;
+        }
+
+        public void MoveBlock(Vector3Int from, Vector3Int to)
+        {
+            if (!CheckInsideBounds(from)) return;
+            if (!CheckInsideBounds(to)) return;
+            if (!this[from]) return;
+            if (this[to]) RemoveBlock(to);
+
+            this[from] = false;
+            this[to] = true;
+            OnBlockMoved?.Invoke(from, to);
         }
     }
 }

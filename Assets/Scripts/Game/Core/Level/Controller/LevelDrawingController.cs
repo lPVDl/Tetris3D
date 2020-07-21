@@ -27,8 +27,10 @@ namespace Game.Core.Level
             _levelModel = levelModel;
             _blockViewFactory = blockViewFactory;
             _viewTransform = viewTransform;
+
             _levelModel.OnBlockAdded += OnBlockAdded;
             _levelModel.OnBlockRemoved += OnBlockRemoved;
+            _levelModel.OnBlockMoved += OnBlockMoved;
         }
 
         public void Initialize()
@@ -49,14 +51,22 @@ namespace Game.Core.Level
 
         private void OnBlockRemoved(Vector3Int pos)
         {
-            this[pos]?.Dispose();
+            this[pos].Dispose();
             this[pos] = null;
+        }
+
+        private void OnBlockMoved(Vector3Int from, Vector3Int to)
+        {
+            this[to] = this[from];
+            this[from] = null;
+            this[to].SetPosition(_viewTransform.TransformPosition(to));
         }
 
         public void Dispose()
         {
             _levelModel.OnBlockAdded -= OnBlockAdded;
             _levelModel.OnBlockRemoved -= OnBlockRemoved;
+            _levelModel.OnBlockMoved -= OnBlockMoved;
         }
     }
 }

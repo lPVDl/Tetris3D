@@ -24,3 +24,10 @@ MonoBehaviour:
     - {x: -1, y: 0, z: 0}
     - {x: 0, y: 0, z: -1}
     _shapeType: 1
+  - _sections:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 1}
+    - {x: 0, y: 0, z: 2}
+    - {x: 0, y: 0, z: -1}
+    - {x: 0, y: 0, z: -2}
+    _shapeType: 2

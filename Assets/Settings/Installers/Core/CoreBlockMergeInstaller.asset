@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7094f2206547b341aabde81cb028070, type: 3}
-  m_Name: CoreBlockSpawnInstaller
+  m_Script: {fileID: 11500000, guid: 387abded52cfd3f408e61b798c50e18b, type: 3}
+  m_Name: CoreBlockMergeInstaller
   m_EditorClassIdentifier: 
-  _spawnControllerConfig:
-    _shapes: 02000000
