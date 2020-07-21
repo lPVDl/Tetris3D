@@ -7,9 +7,9 @@ namespace Game.Core.Block
     public class BlockShapeData
     {
         public EBlockShapeType ShapeType => _shapeType;
-        public IReadOnlyList<Vector3> Sections => _sections;
+        public IReadOnlyList<Vector3Int> Sections => _sections;
 
-        [SerializeField] private List<Vector3> _sections;
+        [SerializeField] private List<Vector3Int> _sections;
         [SerializeField] private EBlockShapeType _shapeType;
     }
 }

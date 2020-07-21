@@ -11,7 +11,7 @@ namespace Game.Core.Block
             _blockShapeProvider = blockShapeProvider;
         }
 
-        public IBlockModel CreateBlock(EBlockShapeType shapeType, Vector3 position, Quaternion rotation)
+        public IBlockModel CreateBlock(EBlockShapeType shapeType, Vector3Int position, Quaternion rotation)
         {
             var shape = _blockShapeProvider.GetShape(shapeType);
             return new BlockModel(shape, position, rotation);

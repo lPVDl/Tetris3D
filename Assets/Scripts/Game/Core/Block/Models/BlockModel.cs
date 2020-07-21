@@ -20,7 +20,7 @@ namespace Game.Core.Block
             }
         }
         
-        public Vector3 Position
+        public Vector3Int Position
         {
             get => _position;
             set
@@ -30,11 +30,11 @@ namespace Game.Core.Block
             }
         }
 
-        private Vector3 _position;
+        private Vector3Int _position;
         private Quaternion _rotation;
 
         public BlockModel(BlockShapeData shape,
-                          Vector3 position,
+                          Vector3Int position,
                           Quaternion rotation)
         {
             Shape = shape;
