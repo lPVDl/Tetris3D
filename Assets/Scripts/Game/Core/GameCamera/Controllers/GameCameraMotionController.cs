@@ -23,7 +23,7 @@ namespace Game.Core.GameCamera
 
         public void Initialize()
         {
-            _cameraView.SetPosition(Vector3.zero);
+            _cameraView.SetPosition(Vector3.up * 10);
             UpdateCameraRotation();
         }
 
