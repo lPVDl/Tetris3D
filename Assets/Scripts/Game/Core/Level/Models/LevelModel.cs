@@ -4,11 +4,11 @@ namespace Game.Core.Level
 {
     public class LevelModel : ILevelModel
     {
-        public Vector3 Size { get; private set; }
+        public Vector3Int Size { get; private set; }
 
         public LevelModel()
         {
-            Size = new Vector3(10, 20, 10);
+            Size = new Vector3Int(10, 20, 10);
         }
     }
 }

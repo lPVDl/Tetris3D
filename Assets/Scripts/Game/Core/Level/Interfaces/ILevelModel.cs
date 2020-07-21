@@ -4,6 +4,6 @@ namespace Game.Core.Level
 {
     public interface ILevelModel
     {
-        Vector3 Size { get; }
+        Vector3Int Size { get; }
     }
 }
