@@ -22,7 +22,7 @@ namespace Game.Core.BlockMotion
             var block = _blockStorage.Blocks[0];
 
             var newPosition = block.Position + direction;
-            if (!_levelPhysics.CheckShapeInsideLevelBounds(newPosition, block.Rotation, block.Shape))
+            if (!CheckAcceptableBlockState(newPosition, block.Rotation, block.Shape))
                 return false;
 
             block.Position = newPosition;
@@ -35,10 +35,21 @@ namespace Game.Core.BlockMotion
             var block = _blockStorage.Blocks[0];
 
             var newRotation = rotation * block.Rotation;
-            if (!_levelPhysics.CheckShapeInsideLevelBounds(block.Position, newRotation, block.Shape))
+            if (!CheckAcceptableBlockState(block.Position, newRotation, block.Shape))
                 return false;
 
             block.Rotation = newRotation;
+            return true;
+        }
+
+        private bool CheckAcceptableBlockState(Vector3Int position, Quaternion rotation, BlockShapeData shape)
+        {
+            if (!_levelPhysics.CheckShapeInsideLevelBounds(position, rotation, shape))
+                return false;
+
+            if (_levelPhysics.CheckOverlappingLevelBlocks(position, rotation, shape))
+                return false;
+
             return true;
         }
     }

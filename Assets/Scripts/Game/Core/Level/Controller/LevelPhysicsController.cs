@@ -16,6 +16,12 @@ namespace Game.Core.Level
             _shapeUtil = shapeUtil;
         }
 
+        public bool CheckOverlappingLevelBlocks(Vector3Int position, Quaternion rotation, BlockShapeData shape)
+        {
+            return _shapeUtil.IterateBlockSections(position, rotation, shape)
+                .Any(p => _levelModel.CheckHasBlock(p));
+        }
+
         public bool CheckShapeInsideLevelBounds(Vector3Int position, Quaternion rotation, BlockShapeData shape)
         {
             return _shapeUtil.IterateBlockSections(position, rotation, shape)

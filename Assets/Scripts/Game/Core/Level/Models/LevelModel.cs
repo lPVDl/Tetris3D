@@ -42,6 +42,11 @@ namespace Game.Core.Level
             OnBlockRemoved?.Invoke(position);
         }
 
+        public bool CheckHasBlock(Vector3Int index)
+        {
+            return CheckInsideBounds(index) && this[index];
+        }
+
         public bool CheckInsideBounds(Vector3Int index)
         {
             if (index.x < 0 || index.x >= Size.x) return false;
