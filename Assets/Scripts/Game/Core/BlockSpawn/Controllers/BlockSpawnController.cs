@@ -16,16 +16,19 @@ namespace Game.Core.BlockSpawn
         private readonly BlockSpawnControllerConfig _config;
         private readonly IBlockModelFactory _blockFactory;
         private readonly ILevelModel _levelModel;
+        private readonly ILevelPhysicsController _levelPhysics;
 
         public BlockSpawnController(IBlockModelStorage blockStorage,
                                     BlockSpawnControllerConfig config,
                                     IBlockModelFactory blockFactory,
-                                    ILevelModel levelModel)
+                                    ILevelModel levelModel,
+                                    ILevelPhysicsController levelPhysics)
         {
             _blockStorage = blockStorage;
             _config = config;
             _blockFactory = blockFactory;
             _levelModel = levelModel;
+            _levelPhysics = levelPhysics;
         }
 
         public bool TrySpawnBlock()
@@ -34,6 +37,9 @@ namespace Game.Core.BlockSpawn
             {
                 NextBlock = CreateRandomBlock();
             }
+
+            if (_levelPhysics.CheckOverlappingLevelBlocks(NextBlock.Position, NextBlock.Rotation, NextBlock.Shape))
+                return false;
 
             _blockStorage.AddBlock(NextBlock);
             NextBlock = CreateRandomBlock();
