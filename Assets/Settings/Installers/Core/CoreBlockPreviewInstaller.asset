@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd75907fab079694aacbb4f331166288, type: 3}
+  m_Name: CoreBlockPreviewInstaller
+  m_EditorClassIdentifier: 
+  _panelView: {fileID: 7579328389423026238, guid: 0040bbc28ef4ddf4dadf5b10e3621dd2,
+    type: 3}
+  _renderView: {fileID: 7356944050642321530, guid: f32e7b522eaa6e34c89386d915f7c8e6,
+    type: 3}

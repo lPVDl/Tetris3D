@@ -29,6 +29,11 @@ namespace Game.Core.Block
             transform.rotation = rotation;
         }
 
+        public void SetParent(Transform parent)
+        {
+            transform.SetParent(parent);
+        }
+
         public void Dispose()
         {
             foreach (var section in _sections)
