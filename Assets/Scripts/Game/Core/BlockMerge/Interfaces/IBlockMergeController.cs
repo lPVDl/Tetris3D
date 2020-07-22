@@ -6,6 +6,9 @@ namespace Game.Core.BlockMerge
     {
         event Action<int> OnBlocksMerge;
 
+        /// <summary>
+        /// Will try to find full lines in level blocks and remove them.
+        /// </summary>
         bool TryMergeBlocks();
     }
 }

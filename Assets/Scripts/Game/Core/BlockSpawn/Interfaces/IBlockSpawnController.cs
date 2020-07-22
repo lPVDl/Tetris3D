@@ -10,6 +10,10 @@ namespace Game.Core.BlockSpawn
 
         IBlockModel NextBlock { get; }
 
+        /// <summary>
+        /// Will spawn new falling block at level top if space available.
+        /// </summary>
+        /// <returns></returns>
         bool TrySpawnBlock();
     }
 }
