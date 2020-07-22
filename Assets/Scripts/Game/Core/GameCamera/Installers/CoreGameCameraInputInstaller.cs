@@ -15,6 +15,7 @@ namespace Game.Core.GameCamera
 
             Container.BindInterfacesTo<GameCameraInputController>().AsSingle().WithArguments(_inputConfig);
             Container.BindInterfacesTo<GameCameraMotionController>().AsSingle();
+            Container.BindInterfacesTo<GameCameraInputActivityRules>().AsSingle();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Game.Core.GameCamera
         private float _cashedHorizontal;
         private float _cashedVertical;
         private Vector3 _cashedMousePosition;
+        private bool _isEnabled;
 
         public GameCameraInputController(GameCameraInputControllerConfig config)
         {
@@ -29,6 +30,9 @@ namespace Game.Core.GameCamera
 
         public void Update(float deltaTime)
         {
+            if (!_isEnabled)
+                return;
+
             if (GetMouseButtonDown(1))
             {
                 _cashedHorizontal = HorizontalRotation;
@@ -43,6 +47,11 @@ namespace Game.Core.GameCamera
                 VerticalRotation = Clamp01(_cashedVertical - (mouseDelta.y / Screen.height) * _config.VerticalRotationPerScreenHeight);
                 OnRotationChange?.Invoke();
             }
+        }
+
+        public void SetEnabled(bool isEnabled)
+        {
+            _isEnabled = isEnabled;
         }
     }
 }

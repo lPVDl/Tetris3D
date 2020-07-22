@@ -18,5 +18,7 @@ namespace Game.Core.GameCamera
         /// Normalized value, which describes camera vertical rotation.
         /// </summary>
         float VerticalRotation { get; }
+
+        void SetEnabled(bool isEnabled);
     }
 }
