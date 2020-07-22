@@ -8,6 +8,7 @@ namespace Game.Core.BlockSpawn
     public class BlockSpawnController : IBlockSpawnController
     {
         public event Action OnNextBlockChange;
+        public event Action OnBlockSpawned;
 
         public IBlockModel NextBlock { get; private set; }
 
@@ -37,6 +38,7 @@ namespace Game.Core.BlockSpawn
             _blockStorage.AddBlock(NextBlock);
             NextBlock = CreateRandomBlock();
             OnNextBlockChange?.Invoke();
+            OnBlockSpawned?.Invoke();
             
             return true;
         }

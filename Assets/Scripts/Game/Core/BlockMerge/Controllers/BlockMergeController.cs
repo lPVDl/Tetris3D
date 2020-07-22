@@ -1,10 +1,13 @@
-﻿using Game.Core.Level;
+﻿using System;
+using Game.Core.Level;
 using UnityEngine;
 
 namespace Game.Core.BlockMerge
 {
     public class BlockMergeController : IBlockMergeController
     {
+        public event Action<int> OnBlocksMerge;
+
         private readonly ILevelModel _level;
 
         public BlockMergeController(ILevelModel level)
@@ -27,6 +30,8 @@ namespace Game.Core.BlockMerge
             var delta = startIndex - endIndex;
             for (var i = startIndex + 1; i < _level.Size.y; i++)
                 MoveRow(i, i - delta);
+
+             OnBlocksMerge?.Invoke(delta * _level.Size.x * _level.Size.z);
 
             return true;
         }

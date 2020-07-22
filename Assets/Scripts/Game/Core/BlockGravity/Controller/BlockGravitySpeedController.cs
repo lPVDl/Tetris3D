@@ -1,29 +1,50 @@
 ﻿using Game.Common.GameEvents;
+using Game.Core.LevelProgress;
+using System;
 using UnityEngine;
 
 namespace Game.Core.BlockGravity
 {
-    public class BlockGravitySpeedController : IInitializable, IUpdatable
+    public class BlockGravitySpeedController : IInitializable, IDisposable
     {
         private readonly IBlockGravityController _gravityController;
+        private readonly IBlockGravitySpeedInputController _inputController;
+        private readonly ILevelProgressModel _levelProgress;
 
-        public BlockGravitySpeedController(IBlockGravityController gravityController)
+        private bool _isSpeedup;
+
+        public BlockGravitySpeedController(IBlockGravityController gravityController,
+                                           IBlockGravitySpeedInputController inputController,
+                                           ILevelProgressModel levelProgress)
         {
             _gravityController = gravityController;
+            _inputController = inputController;
+            _levelProgress = levelProgress;
+
+            _inputController.OnSpeedupToggle += OnSpeedupToggle;
+        }
+
+        private void OnSpeedupToggle(bool isSpeedup)
+        {
+            _isSpeedup = isSpeedup;
+            UpdateSpeed();
         }
 
         public void Initialize()
         {
-            _gravityController.SetSpeed(1);
+            UpdateSpeed();
         }
 
-        public void Update(float deltaTime)
+        private void UpdateSpeed()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-                _gravityController.SetSpeed(10);
+            var speedup = _isSpeedup ? 20 : 1;
+            var levelSpeed = 1 + _levelProgress.Level / 10f;
+            _gravityController.SetSpeed(Mathf.Max(levelSpeed, speedup));
+        }
 
-            if (Input.GetKeyUp(KeyCode.Space))
-                _gravityController.SetSpeed(1);
+        public void Dispose()
+        {
+            _inputController.OnSpeedupToggle -= OnSpeedupToggle;
         }
     }
 }

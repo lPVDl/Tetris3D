@@ -10,6 +10,7 @@ namespace Game.Core.BlockGravity
         {
             Container.BindInterfacesTo<BlockGravityController>().AsSingle();
             Container.BindInterfacesTo<BlockGravitySpeedController>().AsSingle();
+            Container.BindInterfacesTo<BlockGravitySpeedInputController>().AsSingle();
         }
     }
 }
