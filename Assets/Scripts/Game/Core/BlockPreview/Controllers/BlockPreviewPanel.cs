@@ -3,18 +3,11 @@ using UnityEngine;
 
 namespace Game.Core.BlockPreview
 {
-    public class BlockPreviewPanel : IAttachableUIElement
+    public class BlockPreviewPanel : AbstractUIElement
     {
-        private readonly BlockPreviewPanelView _panelView;
-
-        public BlockPreviewPanel(BlockPreviewPanelView panelView)
+        public BlockPreviewPanel(BlockPreviewPanelView panelView) : base(panelView)
         {
-            _panelView = panelView;
-        }
-
-        public void SetParent(Transform parent)
-        {
-            _panelView.SetParent(parent);
+            
         }
     }
 }

@@ -1,12 +1,9 @@
-﻿using UnityEngine;
+﻿using Game.Common.UI;
 
 namespace Game.Core.BlockPreview
 {
-    public class BlockPreviewPanelView : MonoBehaviour
+    public class BlockPreviewPanelView : AbstractUIElementView
     {
-        public void SetParent(Transform parent)
-        {
-            transform.SetParent(parent, false);
-        }
+        
     }
 }

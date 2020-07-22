@@ -5,24 +5,19 @@ using UnityEngine;
 
 namespace Game.Menu.MainWindow
 {
-    public class MainWindow : IAttachableUIElement, IDisposable
+    public class MainWindow : AbstractUIElement, IDisposable
     {
         private readonly MainWindowView _windowView;
         private readonly ISceneSwitcher _sceneSwitcher;
 
         public MainWindow(MainWindowView windowView,
-                          ISceneSwitcher sceneSwitcher)
+                          ISceneSwitcher sceneSwitcher) : base (windowView)
         {
             _windowView = windowView;
             _sceneSwitcher = sceneSwitcher;
 
             _windowView.OnQuitClick += OnQuitClick;
             _windowView.OnPlayClick += OnPlayClick;
-        }
-
-        public void SetParent(Transform parent)
-        {
-            _windowView.SetParent(parent);
         }
 
         private void OnPlayClick()

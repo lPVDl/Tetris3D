@@ -1,12 +1,9 @@
-﻿using UnityEngine;
+﻿using Game.Common.UI;
 
 namespace Game.Menu.Background
 {
-    public class BackgroundView : MonoBehaviour
+    public class BackgroundView : AbstractUIElementView
     {
-        public void SetParent(Transform parent)
-        {
-            transform.SetParent(parent, false);
-        }
+        
     }
 }

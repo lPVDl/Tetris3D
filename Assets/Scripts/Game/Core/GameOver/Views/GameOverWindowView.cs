@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Game.Common.UI;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.Core.GameOver
 {
-    public class GameOverWindowView : MonoBehaviour
+    public class GameOverWindowView : AbstractUIElementView
     {
         public event Action OnPlayClick;
         public event Action OnQuitClick;
@@ -23,16 +24,6 @@ namespace Game.Core.GameOver
         public void SetScore(string text)
         {
             _scoreText.text = text;
-        }
-
-        public void SetParent(Transform parent)
-        {
-            transform.SetParent(parent, false);
-        }
-
-        public void SetVisible(bool isVisible)
-        {
-            gameObject.SetActive(isVisible);
         }
     }
 }

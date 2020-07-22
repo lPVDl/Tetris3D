@@ -3,18 +3,12 @@ using UnityEngine;
 
 namespace Game.Menu.Background
 {
-    public class Background : IAttachableUIElement
+    public class Background : AbstractUIElement
     {
-        private readonly BackgroundView _backgroundView;
-
-        public Background(BackgroundView backgroundView)
+        public Background(BackgroundView backgroundView) : base (backgroundView)
         {
-            _backgroundView = backgroundView;
+            
         }
 
-        public void SetParent(Transform parent)
-        {
-            _backgroundView.SetParent(parent);
-        }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Game.Core.GameOver
 {
-    public class GameOverWindow : IGameOverWindow, IAttachableUIElement, IGameStartListener, IGameFinishListener, IDisposable
+    public class GameOverWindow : AbstractUIElement, IGameOverWindow, IGameStartListener, IGameFinishListener, IDisposable
     {
         public event Action OnTryStartGame;
 
@@ -17,7 +17,7 @@ namespace Game.Core.GameOver
 
         public GameOverWindow(GameOverWindowView windowView,
                               ILevelProgressModel levelProgress,
-                              ISceneSwitcher sceneSwitcher)
+                              ISceneSwitcher sceneSwitcher) : base(windowView)
         {
             _windowView = windowView;
             _levelProgress = levelProgress;
@@ -46,11 +46,6 @@ namespace Game.Core.GameOver
         {
             _windowView.SetScore(_levelProgress.Score.ToString());
             _windowView.SetVisible(true);
-        }
-
-        public void SetParent(Transform parent)
-        {
-            _windowView.SetParent(parent);
         }
 
         public void Dispose()

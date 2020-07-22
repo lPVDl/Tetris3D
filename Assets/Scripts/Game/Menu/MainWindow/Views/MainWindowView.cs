@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Game.Common.UI;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.Menu.MainWindow
 {
-    public class MainWindowView : MonoBehaviour
+    public class MainWindowView : AbstractUIElementView
     {
         public event Action OnPlayClick;
         public event Action OnQuitClick;
@@ -16,11 +17,6 @@ namespace Game.Menu.MainWindow
         {
             _buttonPlay.onClick.AddListener(() => OnPlayClick?.Invoke());
             _buttonQuit.onClick.AddListener(() => OnQuitClick?.Invoke());
-        }
-
-        public void SetParent(Transform parent)
-        {
-            transform.SetParent(parent, false);
         }
     }
 }

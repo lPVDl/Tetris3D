@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Game.Core.LevelProgress
 {
-    public class LevelProgressPanel : IInitializable, IAttachableUIElement, IDisposable
+    public class LevelProgressPanel : AbstractUIElement, IInitializable, IDisposable
     {
         private readonly LevelProgressPanelView _panelView;
         private readonly ILevelProgressModel _progress;
 
         public LevelProgressPanel(LevelProgressPanelView panelView,
-                                  ILevelProgressModel progress)
+                                  ILevelProgressModel progress) : base (panelView)
         {
             _panelView = panelView;
             _progress = progress;
@@ -24,11 +24,6 @@ namespace Game.Core.LevelProgress
         {
             RedrawScore();
             RedrawLevel();
-        }
-
-        public void SetParent(Transform parent)
-        {
-            _panelView.SetParent(parent);
         }
 
         private void RedrawScore()

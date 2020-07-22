@@ -1,17 +1,13 @@
-﻿using TMPro;
+﻿using Game.Common.UI;
+using TMPro;
 using UnityEngine;
 
 namespace Game.Core.LevelProgress
 {
-    public class LevelProgressPanelView : MonoBehaviour
+    public class LevelProgressPanelView : AbstractUIElementView
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private TextMeshProUGUI _levelText;
-
-        public void SetParent(Transform parent)
-        {
-            transform.SetParent(parent, false);
-        }
 
         public void SetScore(string text)
         {
