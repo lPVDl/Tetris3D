@@ -1,11 +1,11 @@
 ﻿using Game.Common.GameEvents;
 using Game.Common.UI;
+using Game.Core.GameCycle;
 using System;
-using UnityEngine;
 
 namespace Game.Core.LevelProgress
 {
-    public class LevelProgressPanel : AbstractUIElement, IInitializable, IDisposable
+    public class LevelProgressPanel : AbstractUIElement, IInitializable, IDisposable, IGameStartListener, IGameFinishListener
     {
         private readonly LevelProgressPanelView _panelView;
         private readonly ILevelProgressModel _progress;
@@ -24,6 +24,16 @@ namespace Game.Core.LevelProgress
         {
             RedrawScore();
             RedrawLevel();
+        }
+
+        public void OnGameStart()
+        {
+            _panelView.SetVisible(true);
+        }
+
+        public void OnGameFinish()
+        {
+            _panelView.SetVisible(false);
         }
 
         private void RedrawScore()
