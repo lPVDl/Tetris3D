@@ -68,5 +68,13 @@ namespace Game.Core.Level
             this[to] = true;
             OnBlockMoved?.Invoke(from, to);
         }
+
+        public void Clear()
+        {
+            for (var x = 0; x < Size.x; x++)
+                for (var y = 0; y < Size.y; y++)
+                    for (var z = 0; z < Size.z; z++)
+                        RemoveBlock(new Vector3Int(x, y, z));
+        }
     }
 }

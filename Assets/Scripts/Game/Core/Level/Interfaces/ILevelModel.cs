@@ -20,5 +20,7 @@ namespace Game.Core.Level
         bool CheckInsideBounds(Vector3Int index);
 
         bool CheckHasBlock(Vector3Int index);
+
+        void Clear();
     }
 }
