@@ -2,6 +2,6 @@
 {
     public interface IBlockViewBuilder
     {
-        IBlockView BuildView(IBlockModel blockModel);
+        IBlockView BuildView(IBlockModel block);
     }
 }

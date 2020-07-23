@@ -9,8 +9,6 @@ namespace Game.Core.Block
 
         void SetRotation(Quaternion rotation);
 
-        void AttachSection(IBlockSectionView section);
-
         void SetParent(Transform parent);
     }
 }

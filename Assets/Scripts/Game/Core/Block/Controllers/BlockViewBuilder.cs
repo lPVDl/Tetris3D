@@ -1,37 +1,36 @@
-﻿using Game.Core.Level;
+﻿using Game.Core.BlockMesh;
+using Game.Core.Level;
 
 namespace Game.Core.Block
 {
     public class BlockViewBuilder : IBlockViewBuilder
     {
-        private readonly IBlockViewFactory _viewFactory;
-        private readonly ILevelViewTransform _levelViewTransform;
 
-        public BlockViewBuilder(IBlockViewFactory viewFactory,
-                                ILevelViewTransform levelViewTransform)
+        private readonly ILevelViewTransform _viewTransform;
+        private readonly IBlockShapeMeshProvider _meshProvider;
+        private readonly IBlockMeshViewFactory _viewFactory;
+
+        public BlockViewBuilder(ILevelViewTransform viewTransform,
+                                IBlockShapeMeshProvider meshProvider,
+                                IBlockMeshViewFactory viewFactory)
         {
+
+            _viewTransform = viewTransform;
+            _meshProvider = meshProvider;
             _viewFactory = viewFactory;
-            _levelViewTransform = levelViewTransform;
         }
 
-        public IBlockView BuildView(IBlockModel blockModel)
+        public IBlockView BuildView(IBlockModel block)
         {
-            var blockView = _viewFactory.CreateBlock();
+            var view = _viewFactory.CreateBlock();
+            var mesh = _meshProvider.GetShapeMesh(block.Shape);
+            var worldPos = _viewTransform.TransformPosition(block.Position);
 
-            var worldPos = _levelViewTransform.TransformPosition(blockModel.Position);
-            blockView.SetPosition(worldPos);
-            blockView.SetRotation(blockModel.Rotation);
-            foreach (var pos in blockModel.Shape.Sections)
-            {
-                var section = _viewFactory.CreateSection();
-                blockView.AttachSection(section);
-                section.SetPosition(worldPos + blockModel.Rotation * pos);
+            view.SetMesh(mesh);
+            view.SetPosition(worldPos);
+            view.SetRotation(block.Rotation);
 
-                // TODO: Many colors may break batching. Should change way meshes drawn.
-                // section.SetColor()
-            }
-
-            return blockView;
+            return view;
         }
     }
 }

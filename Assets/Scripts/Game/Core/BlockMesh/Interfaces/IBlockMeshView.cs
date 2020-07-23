@@ -1,16 +1,10 @@
-﻿using System;
+﻿using Game.Core.Block;
 using UnityEngine;
 
 namespace Game.Core.BlockMesh
 {
-    public interface IBlockMeshView : IDisposable
+    public interface IBlockMeshView : IBlockView
     {
-        void SetPosition(Vector3 position);
-
-        void SetRotation(Quaternion rotation);
-
-        void SetParent(Transform parent);
-
         void SetMesh(Mesh mesh);
     }
 }

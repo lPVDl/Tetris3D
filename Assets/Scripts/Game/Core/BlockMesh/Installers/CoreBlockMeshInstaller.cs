@@ -13,6 +13,7 @@ namespace Game.Core.BlockMesh
         {
             Container.BindInterfacesTo<BlockMeshBuilder>().AsSingle().WithArguments(_blockMesh);
             Container.BindInterfacesTo<BlockMeshViewFactory>().AsSingle().WithArguments(_blockMeshView);
+            Container.BindInterfacesTo<BlockShapeMeshProvider>().AsSingle();
         }
     }
 }
