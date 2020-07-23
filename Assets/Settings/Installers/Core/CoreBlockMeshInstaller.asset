@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _blockMeshView: {fileID: 7256418966264213839, guid: e0b2735e76bbc4f4f9b01ebd38fcdf4c,
     type: 3}
-  _blockMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  _atlasTextureCount: {x: 4, y: 4}

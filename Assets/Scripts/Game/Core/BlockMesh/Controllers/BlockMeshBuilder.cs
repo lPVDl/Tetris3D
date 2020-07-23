@@ -15,11 +15,6 @@ namespace Game.Core.BlockMesh
         private static readonly Vector3 P6 = new Vector3(-0.5f, -0.5f, -0.5f);
         private static readonly Vector3 P7 = new Vector3(-0.5f, -0.5f, 0.5f);
 
-        private static readonly Vector2 U0 = Vector2.zero;
-        private static readonly Vector2 U1 = Vector2.up;
-        private static readonly Vector2 U2 = Vector2.one;
-        private static readonly Vector2 U3 = Vector2.right;
-
         private static readonly Vector3Int Forward = new Vector3Int(0, 0, 1);
         private static readonly Vector3Int Backward = new Vector3Int(0, 0, -1);
         private static readonly Vector3Int Right = new Vector3Int(1, 0, 0);
@@ -28,17 +23,31 @@ namespace Game.Core.BlockMesh
         private static readonly Vector3Int Down = new Vector3Int(0, -1, 0);
 
         private readonly List<Vector3> _vertex;
-        private readonly List<Vector2> _uv;
-        private readonly List<int> _triangle;
+        private readonly List<Vector2> _uvs;
+        private readonly Vector2 _uvShift0;
+        private readonly Vector2 _uvShift1;
+        private readonly Vector2 _upShift2;
+        private readonly Vector2 _uvShift3;
+        private readonly List<int> _triangles;
         private readonly HashSet<Vector3Int> _blockHashset;
+        private readonly Vector2Int _textureCount;
+        private readonly Vector2 _uvSize;
         
         private Vector3 _vertexShift;
+        private Vector2 _uvShiftBase;
 
-        public BlockMeshBuilder()
+        public BlockMeshBuilder(Vector2Int textureCount)
         {
+            _textureCount = textureCount;
+            _uvSize = new Vector2(1f / _textureCount.x, 1f / _textureCount.y);
+            _uvShift0 = new Vector2(0, 0);
+            _uvShift1 = new Vector2(0, _uvSize.y);
+            _upShift2 = new Vector2(_uvSize.x, _uvSize.y);
+            _uvShift3 = new Vector2(_uvSize.x, 0);
+
             _vertex = new List<Vector3>();
-            _uv = new List<Vector2>();
-            _triangle = new List<int>();
+            _uvs = new List<Vector2>();
+            _triangles = new List<int>();
             _blockHashset = new HashSet<Vector3Int>();
         }
 
@@ -46,28 +55,29 @@ namespace Game.Core.BlockMesh
         {
             _blockHashset.Clear();
             _vertex.Clear();
-            _triangle.Clear();
-            _uv.Clear();
+            _triangles.Clear();
+            _uvs.Clear();
             target.Clear();
 
             foreach (var pos in blocks)
                 _blockHashset.Add(pos);
 
             foreach (var pos in blocks)
-                AddBlock(pos);
+                AddBlock(pos, 2);
 
             target.SetVertices(_vertex);
-            target.SetTriangles(_triangle, 0);
-            target.SetUVs(0, _uv);
+            target.SetTriangles(_triangles, 0);
+            target.SetUVs(0, _uvs);
 
             target.RecalculateBounds();
             target.RecalculateNormals();
             target.Optimize();
         }
 
-        private void AddBlock(Vector3Int pos)
+        private void AddBlock(Vector3Int pos, int textureId)
         {
             _vertexShift = pos;
+            _uvShiftBase = new Vector2(textureId % _textureCount.y, textureId / _textureCount.y) * _uvSize;
 
             if (!_blockHashset.Contains(pos + Forward))
                 AddFace(P4, P0, P3, P7);
@@ -99,18 +109,18 @@ namespace Game.Core.BlockMesh
             _vertex.Add(p2 + _vertexShift);
             _vertex.Add(p3 + _vertexShift);
 
-            _uv.Add(U0);
-            _uv.Add(U1);
-            _uv.Add(U2);
-            _uv.Add(U3);
+            _uvs.Add(_uvShiftBase + _uvShift0);
+            _uvs.Add(_uvShiftBase + _uvShift1);
+            _uvs.Add(_uvShiftBase + _upShift2);
+            _uvs.Add(_uvShiftBase + _uvShift3);
 
-            _triangle.Add(vCount);
-            _triangle.Add(vCount + 1);
-            _triangle.Add(vCount + 2);
+            _triangles.Add(vCount);
+            _triangles.Add(vCount + 1);
+            _triangles.Add(vCount + 2);
             
-            _triangle.Add(vCount + 2);
-            _triangle.Add(vCount + 3);
-            _triangle.Add(vCount);
+            _triangles.Add(vCount + 2);
+            _triangles.Add(vCount + 3);
+            _triangles.Add(vCount);
         }
     }
 }
