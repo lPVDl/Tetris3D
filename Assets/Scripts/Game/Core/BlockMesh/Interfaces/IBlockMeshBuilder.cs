@@ -5,6 +5,6 @@ namespace Game.Core.BlockMesh
 {
     public interface IBlockMeshBuilder
     {
-        void BuildMesh(Mesh target, IEnumerable<Vector3> blocks);
+        void BuildMesh(Mesh target, IEnumerable<Vector3Int> blocks);
     }
 }

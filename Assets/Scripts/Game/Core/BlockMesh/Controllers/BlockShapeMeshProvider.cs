@@ -22,7 +22,7 @@ namespace Game.Core.BlockMesh
             if (!_shapes.TryGetValue(shapeData.ShapeType, out var mesh))
             {
                 mesh = new Mesh();
-                _meshBuilder.BuildMesh(mesh, shapeData.Sections.Select(p => (Vector3)p));
+                _meshBuilder.BuildMesh(mesh, shapeData.Sections);
                 _shapes[shapeData.ShapeType] = mesh;
             }
 

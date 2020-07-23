@@ -1,7 +1,6 @@
 ﻿using Game.Common.GameEvents;
 using Game.Core.BlockMesh;
 using System;
-using System.Linq;
 using UnityEngine;
 
 namespace Game.Core.Level
@@ -39,6 +38,8 @@ namespace Game.Core.Level
             _meshView.SetPosition(Vector3.zero);
             _meshView.SetRotation(Quaternion.identity);
             _meshView.SetMesh(_mesh);
+            var size = _levelModel.Size;
+            _meshView.SetPosition(new Vector3(-size.x / 2 + 0.5f, 0.5f, -size.z / 2 + 0.5f));
         }
 
         public void LateUpdate(float deltaTime)
@@ -47,8 +48,7 @@ namespace Game.Core.Level
                 return;
 
             _isDirty = false;
-            var blocks = _levelModel.IterateBlocks().Select(p => _levelViewTransform.TransformPosition(p));
-            _blockMeshBuilder.BuildMesh(_mesh, blocks);
+            _blockMeshBuilder.BuildMesh(_mesh, _levelModel.IterateBlocks());
         }
 
         private void OnBlockAdded(Vector3Int position)

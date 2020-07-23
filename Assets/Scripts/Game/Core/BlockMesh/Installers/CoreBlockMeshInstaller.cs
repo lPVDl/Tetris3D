@@ -7,11 +7,10 @@ namespace Game.Core.BlockMesh
     public class CoreBlockMeshInstaller : ScriptableObjectInstaller
     {
         [SerializeField] private BlockMeshView _blockMeshView;
-        [SerializeField] private Mesh _blockMesh;
 
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<BlockMeshBuilder>().AsSingle().WithArguments(_blockMesh);
+            Container.BindInterfacesTo<BlockMeshBuilder>().AsSingle();
             Container.BindInterfacesTo<BlockMeshViewFactory>().AsSingle().WithArguments(_blockMeshView);
             Container.BindInterfacesTo<BlockShapeMeshProvider>().AsSingle();
         }
