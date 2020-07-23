@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Game.Core.BlockMesh
 {
     public class BlockMeshBuilder : IBlockMeshBuilder
     {
+        //   3---------0
+        //  /|        /|
+        // 2---------1 |
+        // | |       | |   Y
+        // | 7-------|-4   | Z
+        // |/        |/    |/
+        // 6---------5     0---X
         private static readonly Vector3 P0 = new Vector3(0.5f, 0.5f, 0.5f);
         private static readonly Vector3 P1 = new Vector3(0.5f, 0.5f, -0.5f);
         private static readonly Vector3 P2 = new Vector3(-0.5f, 0.5f, -0.5f);
