@@ -5,6 +5,7 @@ namespace Game.Core.BlockMesh
     public class BlockMeshView : MonoBehaviour, IBlockMeshView
     {
         [SerializeField] private MeshFilter _meshFilter;
+        [SerializeField] private MeshRenderer _meshRenderer;
 
         public void SetMesh(Mesh mesh)
         {
@@ -24,6 +25,11 @@ namespace Game.Core.BlockMesh
         public void SetRotation(Quaternion rotation)
         {
             transform.rotation = rotation;
+        }
+
+        public void SetMaterial(Material material)
+        {
+            _meshRenderer.material = material;
         }
 
         public void Dispose()

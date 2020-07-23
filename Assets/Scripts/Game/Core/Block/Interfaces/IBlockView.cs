@@ -10,5 +10,7 @@ namespace Game.Core.Block
         void SetRotation(Quaternion rotation);
 
         void SetParent(Transform parent);
+
+        void SetMaterial(Material material);
     }
 }

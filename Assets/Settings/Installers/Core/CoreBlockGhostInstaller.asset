@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0d6ca544d190074bb3c748777248ceb, type: 3}
   m_Name: CoreBlockGhostInstaller
   m_EditorClassIdentifier: 
+  _ghostBlockMaterial: {fileID: 2100000, guid: e8aeaf4da80d7424599e92b01da50868, type: 2}

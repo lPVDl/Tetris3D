@@ -11,18 +11,21 @@ namespace Game.Core.BlockGhost
         private readonly ILevelViewTransform _levelViewTransform;
         private readonly ILevelPhysicsController _levelPhysics;
         private readonly IBlockModelStorage _blockModelStorage;
+        private readonly Material _ghostMaterial;
 
         private IBlockView _ghostBlockView;
 
         public BlockGhostController(IBlockViewBuilder blockViewBuilder,
                                     ILevelViewTransform levelViewTransform,
                                     ILevelPhysicsController levelPhysics,
-                                    IBlockModelStorage blockModelStorage)
+                                    IBlockModelStorage blockModelStorage,
+                                    Material ghostMaterial)
         {
             _blockViewBuilder = blockViewBuilder;
             _levelViewTransform = levelViewTransform;
             _levelPhysics = levelPhysics;
             _blockModelStorage = blockModelStorage;
+            _ghostMaterial = ghostMaterial;
 
             _blockModelStorage.OnBlockAdded += OnBlockAdded;
             _blockModelStorage.OnBlockRemoved += OnBlockRemoved;
@@ -33,6 +36,7 @@ namespace Game.Core.BlockGhost
             _ghostBlockView?.Dispose();
             _ghostBlockView = null;
             _ghostBlockView = _blockViewBuilder.BuildView(block);
+            _ghostBlockView.SetMaterial(_ghostMaterial);
             UpdateGhostPositionRotation(block);
             block.OnPositionChanged += UpdateGhostPositionRotation;
             block.OnRotationChanged += UpdateGhostPositionRotation;

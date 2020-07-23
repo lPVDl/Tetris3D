@@ -27,6 +27,8 @@ namespace Game.Core.Block
         private void OnBlockAdded(IBlockModel block)
         {
             _blockToView[block] = _blockViewBuilder.BuildView(block);
+            UpdateBlockPosition(block);
+            UpdateBlockRotation(block);
             Subscribe(block);
         }
 
@@ -40,22 +42,22 @@ namespace Game.Core.Block
 
         private void Subscribe(IBlockModel block)
         {
-            block.OnPositionChanged += OnBlockPositionChanged;
-            block.OnRotationChanged += OnBlockRotationChanged;
+            block.OnPositionChanged += UpdateBlockPosition;
+            block.OnRotationChanged += UpdateBlockRotation;
         }
 
         private void Unsubscribe(IBlockModel block)
         {
-            block.OnPositionChanged -= OnBlockPositionChanged;
-            block.OnRotationChanged -= OnBlockRotationChanged;
+            block.OnPositionChanged -= UpdateBlockPosition;
+            block.OnRotationChanged -= UpdateBlockRotation;
         }
 
-        private void OnBlockRotationChanged(IBlockModel block)
+        private void UpdateBlockRotation(IBlockModel block)
         {
             _blockToView[block].SetRotation(block.Rotation);
         }
 
-        private void OnBlockPositionChanged(IBlockModel block)
+        private void UpdateBlockPosition(IBlockModel block)
         {
             var worldPos = _viewTransform.TransformPosition(block.Position);
             _blockToView[block].SetPosition(worldPos);
@@ -65,6 +67,8 @@ namespace Game.Core.Block
         {
             _blockModelStorage.OnBlockAdded -= OnBlockAdded;
             _blockModelStorage.OnBlockRemoved -= OnBlockRemoved;
+            foreach (var block in _blockToView.Keys)
+                Unsubscribe(block);
         }
     }
 }
