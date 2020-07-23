@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Core.Level
@@ -20,6 +21,8 @@ namespace Game.Core.Level
         bool CheckInsideBounds(Vector3Int index);
 
         bool CheckHasBlock(Vector3Int index);
+
+        IEnumerable<Vector3Int> IterateBlocks();
 
         void Clear();
     }

@@ -1,32 +1,31 @@
 ﻿using Game.Common.GameEvents;
-using Game.Core.Block;
+using Game.Core.BlockMesh;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Game.Core.Level
 {
-    public class LevelDrawingController : IInitializable, IDisposable
+    public class LevelDrawingController : IInitializable, ILateUpdatable, IDisposable
     {
         private readonly ILevelModel _levelModel;
-        private readonly IBlockViewFactory _blockViewFactory;
-        private readonly ILevelViewTransform _viewTransform;
+        private readonly IBlockMeshViewFactory _blockMeshFactory;
+        private readonly ILevelViewTransform _levelViewTransform;
+        private readonly IBlockMeshBuilder _blockMeshBuilder;
 
-        private Transform _root;
-        private IBlockSectionView[,,] _blocks;
-
-        private IBlockSectionView this[Vector3Int index]
-        {
-            get => _blocks[index.x, index.y, index.z];
-            set => _blocks[index.x, index.y, index.z] = value;
-        }
+        private IBlockMeshView _meshView;
+        private Mesh _mesh;
+        private bool _isDirty;
 
         public LevelDrawingController(ILevelModel levelModel,
-                                      IBlockViewFactory blockViewFactory,
-                                      ILevelViewTransform viewTransform)
+                                                  IBlockMeshViewFactory blockMeshFactory,
+                                                  ILevelViewTransform levelViewTransform,
+                                                  IBlockMeshBuilder blockMeshBuilder)
         {
             _levelModel = levelModel;
-            _blockViewFactory = blockViewFactory;
-            _viewTransform = viewTransform;
+            _blockMeshFactory = blockMeshFactory;
+            _levelViewTransform = levelViewTransform;
+            _blockMeshBuilder = blockMeshBuilder;
 
             _levelModel.OnBlockAdded += OnBlockAdded;
             _levelModel.OnBlockRemoved += OnBlockRemoved;
@@ -35,31 +34,36 @@ namespace Game.Core.Level
 
         public void Initialize()
         {
-            _root = new GameObject("_LevelDrawingController").transform;
-            var size = _levelModel.Size;
-            _blocks = new IBlockSectionView[size.x, size.y, size.z];
+            _mesh = new Mesh();
+            _meshView = _blockMeshFactory.CreateBlock();
+            _meshView.SetPosition(Vector3.zero);
+            _meshView.SetRotation(Quaternion.identity);
+            _meshView.SetMesh(_mesh);
         }
 
-        private void OnBlockAdded(Vector3Int pos)
+        public void LateUpdate(float deltaTime)
         {
-            var view = _blockViewFactory.CreateSection();
-            view.SetParent(_root);
-            var worldPos = _viewTransform.TransformPosition(pos);
-            view.SetPosition(worldPos);
-            this[pos] = view;
+            if (!_isDirty)
+                return;
+
+            _isDirty = false;
+            var blocks = _levelModel.IterateBlocks().Select(p => _levelViewTransform.TransformPosition(p));
+            _blockMeshBuilder.BuildMesh(_mesh, blocks);
         }
 
-        private void OnBlockRemoved(Vector3Int pos)
+        private void OnBlockAdded(Vector3Int position)
         {
-            this[pos].Dispose();
-            this[pos] = null;
+            _isDirty = true;
+        }
+
+        private void OnBlockRemoved(Vector3Int position)
+        {
+            _isDirty = true;
         }
 
         private void OnBlockMoved(Vector3Int from, Vector3Int to)
         {
-            this[to] = this[from];
-            this[from] = null;
-            this[to].SetPosition(_viewTransform.TransformPosition(to));
+            _isDirty = true;
         }
 
         public void Dispose()

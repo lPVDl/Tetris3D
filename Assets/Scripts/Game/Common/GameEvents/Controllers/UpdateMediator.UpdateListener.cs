@@ -17,6 +17,11 @@ namespace Game.Common.GameEvents
             {
                 _mediator.OnUpdate(Time.deltaTime);
             }
+
+            private void LateUpdate()
+            {
+                _mediator.OnLateUpdate(Time.deltaTime);
+            }
         }
     }
 }

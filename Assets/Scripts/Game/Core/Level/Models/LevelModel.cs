@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Core.Level
@@ -55,6 +56,15 @@ namespace Game.Core.Level
             if (index.z < 0 || index.z >= Size.z) return false;
 
             return true;
+        }
+
+        public IEnumerable<Vector3Int> IterateBlocks()
+        {
+            for (var x = 0; x < Size.x; x++)
+                for (var y = 0; y < Size.y; y++)
+                    for (var z = 0; z < Size.z; z++)
+                        if (_blocks[x, y, z])
+                            yield return new Vector3Int(x, y, z);
         }
 
         public void MoveBlock(Vector3Int from, Vector3Int to)
