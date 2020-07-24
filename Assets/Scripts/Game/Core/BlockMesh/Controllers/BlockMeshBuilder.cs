@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Common.MeshTools;
 using Game.Core.Block;
 using UnityEngine;
 
@@ -6,30 +7,14 @@ namespace Game.Core.BlockMesh
 {
     public class BlockMeshBuilder : IBlockMeshBuilder
     {
-        //   3---------0
-        //  /|        /|
-        // 2---------1 |
-        // | |       | |   Y
-        // | 7-------|-4   | Z
-        // |/        |/    |/
-        // 6---------5     0---X
-        private static readonly Vector3 P0 = new Vector3(0.5f, 0.5f, 0.5f);
-        private static readonly Vector3 P1 = new Vector3(0.5f, 0.5f, -0.5f);
-        private static readonly Vector3 P2 = new Vector3(-0.5f, 0.5f, -0.5f);
-        private static readonly Vector3 P3 = new Vector3(-0.5f, 0.5f, 0.5f);
-        private static readonly Vector3 P4 = new Vector3(0.5f, -0.5f, 0.5f);
-        private static readonly Vector3 P5 = new Vector3(0.5f, -0.5f, -0.5f);
-        private static readonly Vector3 P6 = new Vector3(-0.5f, -0.5f, -0.5f);
-        private static readonly Vector3 P7 = new Vector3(-0.5f, -0.5f, 0.5f);
-
         private static readonly Vector3Int Forward = new Vector3Int(0, 0, 1);
         private static readonly Vector3Int Backward = new Vector3Int(0, 0, -1);
         private static readonly Vector3Int Right = new Vector3Int(1, 0, 0);
         private static readonly Vector3Int Left = new Vector3Int(-1, 0, 0);
-        private static readonly Vector3Int Top = new Vector3Int(0, 1, 0);
+        private static readonly Vector3Int Up = new Vector3Int(0, 1, 0);
         private static readonly Vector3Int Down = new Vector3Int(0, -1, 0);
 
-        private readonly List<Vector3> _vertex;
+        private readonly List<Vector3> _vertices;
         private readonly List<Vector2> _uvs;
         private readonly Vector2 _uvShift0;
         private readonly Vector2 _uvShift1;
@@ -39,6 +24,7 @@ namespace Game.Core.BlockMesh
         private readonly HashSet<Vector3Int> _blockHashset;
         private readonly Vector2Int _textureCount;
         private readonly Vector2 _uvSize;
+        private readonly CubeMeshData _cube;
         
         private Vector3 _vertexShift;
         private Vector2 _uvShiftBase;
@@ -51,8 +37,9 @@ namespace Game.Core.BlockMesh
             _uvShift1 = new Vector2(0, _uvSize.y);
             _upShift2 = new Vector2(_uvSize.x, _uvSize.y);
             _uvShift3 = new Vector2(_uvSize.x, 0);
+            _cube = new CubeMeshData(Vector3.one);
 
-            _vertex = new List<Vector3>();
+            _vertices = new List<Vector3>();
             _uvs = new List<Vector2>();
             _triangles = new List<int>();
             _blockHashset = new HashSet<Vector3Int>();
@@ -91,7 +78,7 @@ namespace Game.Core.BlockMesh
         private void ClearData(Mesh target)
         {
             _blockHashset.Clear();
-            _vertex.Clear();
+            _vertices.Clear();
             _triangles.Clear();
             _uvs.Clear();
             target.Clear();
@@ -99,7 +86,7 @@ namespace Game.Core.BlockMesh
 
         private void FinishBuilding(Mesh target)
         {
-            target.SetVertices(_vertex);
+            target.SetVertices(_vertices);
             target.SetTriangles(_triangles, 0);
             target.SetUVs(0, _uvs);
             target.RecalculateBounds();
@@ -113,34 +100,34 @@ namespace Game.Core.BlockMesh
             _uvShiftBase = new Vector2(textureId % _textureCount.y, textureId / _textureCount.y) * _uvSize;
 
             if (!_blockHashset.Contains(pos + Forward))
-                AddFace(P4, P0, P3, P7);
+                AddFace(_cube.Forward);
 
             if (!_blockHashset.Contains(pos + Backward))
-                AddFace(P6, P2, P1, P5);
+                AddFace(_cube.Backward);
 
             if (!_blockHashset.Contains(pos + Right))
-                AddFace(P5, P1, P0, P4);
+                AddFace(_cube.Right);
 
             if (!_blockHashset.Contains(pos + Left))
-                AddFace(P7, P3, P2, P6);
+                AddFace(_cube.Left);
 
-            if (!_blockHashset.Contains(pos + Top))
-                AddFace(P2, P3, P0, P1);
+            if (!_blockHashset.Contains(pos + Up))
+                AddFace(_cube.Up);
 
             if (!_blockHashset.Contains(pos + Down))
-                AddFace(P7, P6, P5, P4);
+                AddFace(_cube.Down);
         }
 
         // 1---2
         // |   |
         // 0---3
-        private void AddFace(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
+        private void AddFace(PlaneMeshData plane)
         {
-            var vCount = _vertex.Count;
-            _vertex.Add(p0 + _vertexShift);
-            _vertex.Add(p1 + _vertexShift);
-            _vertex.Add(p2 + _vertexShift);
-            _vertex.Add(p3 + _vertexShift);
+            var vCount = _vertices.Count;
+            _vertices.Add(plane.P0 + _vertexShift);
+            _vertices.Add(plane.P1 + _vertexShift);
+            _vertices.Add(plane.P2 + _vertexShift);
+            _vertices.Add(plane.P3 + _vertexShift);
 
             _uvs.Add(_uvShiftBase + _uvShift0);
             _uvs.Add(_uvShiftBase + _uvShift1);

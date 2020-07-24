@@ -6,11 +6,12 @@ namespace Game.Core.LevelGrid
     [CreateAssetMenu(menuName = "ScriptableObject/Installers/Game/Core/LevelGrid", fileName = "CoreLevelGridInstaller")]
     public class CoreLevelGridInstaller : ScriptableObjectInstaller
     {
-        [SerializeField] private LevelGridView _gridView;
+        [SerializeField] private Material _gridMaterial;
 
         public override void InstallBindings()
         {
-            Container.Bind<LevelGridView>().FromComponentInNewPrefab(_gridView).AsSingle().NonLazy();
+            Container.BindInterfacesTo<LevelGridMeshBuilder>().AsSingle();
+            Container.BindInterfacesTo<LevelGridMeshController>().AsSingle().WithArguments(_gridMaterial);
         }
     }
 }

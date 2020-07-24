@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da9800496593c1a44b0c85e3e8d35320, type: 3}
   m_Name: CoreLevelGridInstaller
   m_EditorClassIdentifier: 
-  _gridView: {fileID: 2804252956083751697, guid: fe232578c6577594aa1126a86411ae0f,
-    type: 3}
+  _gridMaterial: {fileID: 2100000, guid: 9443a1d18c93d0548925ab524f2c58ef, type: 2}
