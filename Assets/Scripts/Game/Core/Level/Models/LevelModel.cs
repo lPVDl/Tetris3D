@@ -22,9 +22,9 @@ namespace Game.Core.Level
 
         private EBlockTextureId[,,] _blocks;
 
-        public LevelModel()
+        public void Initialize(Vector3Int size)
         {
-            Size = new Vector3Int(10, 20, 10);
+            Size = size;
             _blocks = new EBlockTextureId[Size.x, Size.y, Size.z];
         }
 

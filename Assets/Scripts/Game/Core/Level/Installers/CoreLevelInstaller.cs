@@ -12,6 +12,7 @@ namespace Game.Core.Level
             Container.BindInterfacesTo<LevelViewTransform>().AsSingle();
             Container.BindInterfacesTo<LevelPhysicsController>().AsSingle();
             Container.BindInterfacesTo<LevelDrawingController>().AsSingle();
+            Container.BindInterfacesTo<LevelModelInitializationController>().AsSingle();
         }
     }
 }

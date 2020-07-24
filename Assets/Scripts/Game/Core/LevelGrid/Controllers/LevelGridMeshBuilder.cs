@@ -32,7 +32,7 @@ namespace Game.Core.LevelGrid
             var cube = new CubeMeshData(size);
             var zAxisUvScale = new Vector2(size.x, size.y);
             var xAxisUvScale = new Vector2(size.z, size.y);
-            var yAxisUvScale = new Vector2(size.z, size.x);
+            var yAxisUvScale = new Vector2(size.x, size.z);
             AddFace(cube.ReverseForward, zAxisUvScale);
             AddFace(cube.ReverseBackward, zAxisUvScale);
             AddFace(cube.ReverseRight, xAxisUvScale);

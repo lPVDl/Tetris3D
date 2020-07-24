@@ -41,7 +41,7 @@ namespace Game.Core.Level
             _meshView.SetRotation(Quaternion.identity);
             _meshView.SetMesh(_mesh);
             var size = _levelModel.Size;
-            _meshView.SetPosition(new Vector3(-size.x / 2 + 0.5f, 0.5f, -size.z / 2 + 0.5f));
+            _meshView.SetPosition(new Vector3(-size.x / 2f + 0.5f, 0.5f, -size.z / 2f + 0.5f));
         }
 
         public void LateUpdate(float deltaTime)

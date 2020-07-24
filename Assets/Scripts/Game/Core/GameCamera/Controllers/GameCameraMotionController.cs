@@ -1,4 +1,5 @@
 ﻿using Game.Common.GameEvents;
+using Game.Core.Level;
 using System;
 using UnityEngine;
 
@@ -13,19 +14,21 @@ namespace Game.Core.GameCamera
 
         private readonly IGameCameraView _cameraView;
         private readonly IGameCameraInputController _cameraInput;
+        private readonly ILevelModel _levelModel;
 
         public GameCameraMotionController(IGameCameraView cameraView,
-                                          IGameCameraInputController cameraInput)
+                                          IGameCameraInputController cameraInput,
+                                          ILevelModel levelModel)
         {
             _cameraView = cameraView;
             _cameraInput = cameraInput;
-
+            _levelModel = levelModel;
             _cameraInput.OnRotationChange += UpdateCameraRotation;
         }
 
         public void Initialize()
         {
-            _cameraView.SetPosition(Vector3.up * 10);
+            _cameraView.SetPosition(new Vector3(0, _levelModel.Size.y / 2, 0));
             UpdateCameraRotation();
         }
 

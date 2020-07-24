@@ -14,6 +14,8 @@ namespace Game.Core.Level
 
         Vector3Int Size { get; }
 
+        void Initialize(Vector3Int size);
+
         void AddBlock(Vector3Int position, EBlockTextureId textureId);
 
         void RemoveBlock(Vector3Int position);
