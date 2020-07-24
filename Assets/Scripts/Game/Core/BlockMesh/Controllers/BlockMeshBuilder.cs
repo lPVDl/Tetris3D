@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Core.Block;
 using UnityEngine;
 
 namespace Game.Core.BlockMesh
@@ -57,24 +58,50 @@ namespace Game.Core.BlockMesh
             _blockHashset = new HashSet<Vector3Int>();
         }
 
-        public void BuildMesh(Mesh target, IEnumerable<Vector3Int> blocks)
+        public void BuildMesh(Mesh target, IEnumerable<BlockMeshData> blocks)
+        {
+            ClearData(target);
+
+            foreach (var b in blocks)
+                _blockHashset.Add(b.Position);
+
+            foreach (var b in blocks)
+                AddBlock(b.Position, (int)b.TextureId);
+
+            FinishBuilding(target);
+        }
+
+        public Mesh BuildMesh(IEnumerable<Vector3Int> blocks, EBlockTextureId textureId)
+        {
+            var target = new Mesh();
+            ClearData(target);
+
+            foreach (var p in blocks)
+                _blockHashset.Add(p);
+
+            var texId = (int)textureId;
+            foreach (var p in blocks)
+                AddBlock(p, texId);
+
+            FinishBuilding(target);
+
+            return target;
+        }
+
+        private void ClearData(Mesh target)
         {
             _blockHashset.Clear();
             _vertex.Clear();
             _triangles.Clear();
             _uvs.Clear();
             target.Clear();
+        }
 
-            foreach (var pos in blocks)
-                _blockHashset.Add(pos);
-
-            foreach (var pos in blocks)
-                AddBlock(pos, 2);
-
+        private void FinishBuilding(Mesh target)
+        {
             target.SetVertices(_vertex);
             target.SetTriangles(_triangles, 0);
             target.SetUVs(0, _uvs);
-
             target.RecalculateBounds();
             target.RecalculateNormals();
             target.Optimize();

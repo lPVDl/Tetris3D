@@ -8,10 +8,12 @@ namespace Game.Core.Block
     public class CoreBlockInstaller : ScriptableObjectInstaller
     {
         [SerializeField] private List<BlockShapeData> _blockShapes;
+        [SerializeField] private List<BlockShapeTextureData> _shapeTextures;
 
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<BlockShapeDataProvider>().AsSingle().WithArguments(_blockShapes);
+            Container.BindInterfacesTo<BlockShapeTextureProvider>().AsSingle().WithArguments(_shapeTextures);
             Container.BindInterfacesTo<BlockModelFactory>().AsSingle();
             Container.BindInterfacesTo<BlockModelStorage>().AsSingle();
             Container.BindInterfacesTo<BlockViewBuilder>().AsSingle();
