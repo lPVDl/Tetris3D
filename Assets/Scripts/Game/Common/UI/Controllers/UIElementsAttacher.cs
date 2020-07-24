@@ -5,6 +5,8 @@ namespace Game.Common.UI
 {
     public class UIElementsAttacher : IInitializable
     {
+        public EInitializationOrder InitializationOrder => EInitializationOrder.Common;
+
         private readonly List<IAttachableUIElement> _uiElements;
         private readonly ICanvasView _canvas;
 

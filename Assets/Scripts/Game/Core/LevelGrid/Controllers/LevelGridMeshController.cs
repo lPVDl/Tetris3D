@@ -7,6 +7,8 @@ namespace Game.Core.LevelGrid
 {
     public class LevelGridMeshController : IInitializable
     {
+        public EInitializationOrder InitializationOrder => EInitializationOrder.Common;
+
         private readonly IBlockMeshViewFactory _blockMeshViewFactory;
         private readonly ILevelGridMeshBuilder _gridMeshBuilder;
         private readonly Material _gridMaterial;

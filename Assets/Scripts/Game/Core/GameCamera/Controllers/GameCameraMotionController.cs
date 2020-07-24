@@ -9,6 +9,8 @@ namespace Game.Core.GameCamera
     /// </summary>
     public class GameCameraMotionController : IDisposable, IInitializable
     {
+        public EInitializationOrder InitializationOrder => EInitializationOrder.Common;
+
         private readonly IGameCameraView _cameraView;
         private readonly IGameCameraInputController _cameraInput;
 

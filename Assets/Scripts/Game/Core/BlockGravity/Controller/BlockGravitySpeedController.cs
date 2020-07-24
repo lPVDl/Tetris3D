@@ -7,6 +7,8 @@ namespace Game.Core.BlockGravity
 {
     public class BlockGravitySpeedController : IInitializable, IDisposable
     {
+        public EInitializationOrder InitializationOrder => EInitializationOrder.Common;
+
         private readonly IBlockGravityController _gravityController;
         private readonly IBlockGravitySpeedInputController _inputController;
         private readonly ILevelProgressModel _levelProgress;

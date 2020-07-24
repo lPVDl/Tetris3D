@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Game.Common.GameEvents
 {
@@ -13,7 +14,7 @@ namespace Game.Common.GameEvents
 
         public void Initialize()
         {
-            foreach (var entity in _initializables)
+            foreach (var entity in _initializables.OrderBy(e => e.InitializationOrder))
                 entity.Initialize();
         }
     }

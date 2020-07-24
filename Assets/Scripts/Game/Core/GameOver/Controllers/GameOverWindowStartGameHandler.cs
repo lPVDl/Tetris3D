@@ -6,6 +6,8 @@ namespace Game.Core.GameOver
 {
     public class GameOverWindowStartGameHandler : IInitializable, IDisposable
     {
+        public EInitializationOrder InitializationOrder => EInitializationOrder.Common;
+
         private readonly IGameOverWindow _gameOverWindow;
         private readonly IGameCycleController _gameCycleController;
 

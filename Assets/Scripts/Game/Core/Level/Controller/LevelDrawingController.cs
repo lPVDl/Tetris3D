@@ -7,6 +7,8 @@ namespace Game.Core.Level
 {
     public class LevelDrawingController : IInitializable, ILateUpdatable, IDisposable
     {
+        public EInitializationOrder InitializationOrder => EInitializationOrder.Common;
+
         private readonly ILevelModel _levelModel;
         private readonly IBlockMeshViewFactory _blockMeshFactory;
         private readonly ILevelViewTransform _levelViewTransform;

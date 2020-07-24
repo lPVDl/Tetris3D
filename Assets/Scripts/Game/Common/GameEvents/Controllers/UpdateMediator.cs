@@ -5,6 +5,8 @@ namespace Game.Common.GameEvents
 {
     public partial class UpdateMediator : IInitializable
     {
+        public EInitializationOrder InitializationOrder => EInitializationOrder.Common;
+
         private readonly List<IUpdatable> _updatables;
         private readonly List<ILateUpdatable> _lateUpdatables;
 

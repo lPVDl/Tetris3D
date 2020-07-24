@@ -7,6 +7,8 @@ namespace Game.Core.LevelProgress
 {
     public class LevelProgressPanel : AbstractUIElement, IInitializable, IDisposable, IGameStartListener, IGameFinishListener
     {
+        public EInitializationOrder InitializationOrder => EInitializationOrder.Common;
+
         private readonly LevelProgressPanelView _panelView;
         private readonly ILevelProgressModel _progress;
 

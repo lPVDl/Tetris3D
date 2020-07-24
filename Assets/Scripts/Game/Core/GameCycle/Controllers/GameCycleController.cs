@@ -13,6 +13,8 @@ namespace Game.Core.GameCycle
 {
     public class GameCycleController : IInitializable, IGameCycleController
     {
+        public EInitializationOrder InitializationOrder => EInitializationOrder.Common;
+
         private readonly ICoroutineManager _coroutineManager;
         private readonly IBlockSpawnController _spawnController;
         private readonly IBlockGravityController _gravityController;

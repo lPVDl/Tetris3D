@@ -4,6 +4,8 @@ namespace Game.Common.UI
 {
     public class CanvasController : IInitializable
     {
+        public EInitializationOrder InitializationOrder => EInitializationOrder.Common;
+
         private readonly ICanvasCamera _camera;
         private readonly ICanvasView _canvas;
 
