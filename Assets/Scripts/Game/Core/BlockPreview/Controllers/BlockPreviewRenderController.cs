@@ -37,7 +37,7 @@ namespace Game.Core.BlockPreview
             _renderView.SetCameraScale(Mathf.Max(halfSize.x, halfSize.z) + 0.5f);
 
             _blockView = _blockViewBuilder.BuildView(block);
-            _blockView.SetPosition(root.position - bounds.center);
+            _blockView.Position = root.position - bounds.center;
             _blockView.SetParent(root);
         }
 

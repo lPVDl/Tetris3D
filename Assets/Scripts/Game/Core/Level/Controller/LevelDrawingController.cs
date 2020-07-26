@@ -32,13 +32,12 @@ namespace Game.Core.Level
 
         public void Initialize()
         {
+            var size = _levelModel.Size;
             _mesh = new Mesh();
             _meshView = _blockMeshFactory.CreateBlock();
-            _meshView.SetPosition(Vector3.zero);
+            _meshView.Position = new Vector3(-size.x / 2f + 0.5f, 0.5f, -size.z / 2f + 0.5f);
             _meshView.Rotation = Quaternion.identity;
             _meshView.SetMesh(_mesh);
-            var size = _levelModel.Size;
-            _meshView.SetPosition(new Vector3(-size.x / 2f + 0.5f, 0.5f, -size.z / 2f + 0.5f));
         }
 
         public void LateUpdate(float deltaTime)

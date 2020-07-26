@@ -13,6 +13,12 @@ namespace Game.Core.BlockMesh
             set => transform.rotation = value;
         }
 
+        public Vector3 Position
+        {
+            get => transform.position;
+            set => transform.position = value;
+        }
+
         public void SetMesh(Mesh mesh)
         {
             _meshFilter.mesh = mesh;
@@ -21,11 +27,6 @@ namespace Game.Core.BlockMesh
         public void SetParent(Transform parent)
         {
             transform.SetParent(parent);
-        }
-
-        public void SetPosition(Vector3 position)
-        {
-            transform.position = position;
         }
 
         public void SetMaterial(Material material)

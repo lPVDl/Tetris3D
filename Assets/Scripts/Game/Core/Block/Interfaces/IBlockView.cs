@@ -7,7 +7,7 @@ namespace Game.Core.Block
     {
         Quaternion Rotation { get; set; }
 
-        void SetPosition(Vector3 position);
+        Vector3 Position { get; set; }
 
         void SetParent(Transform parent);
 

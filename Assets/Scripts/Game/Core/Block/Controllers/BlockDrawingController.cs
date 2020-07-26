@@ -10,17 +10,20 @@ namespace Game.Core.Block
         private readonly IBlockViewBuilder _blockViewBuilder;
         private readonly ILevelViewTransform _viewTransform;
         private readonly IBlockViewRotationAnimator _rotationAnimator;
+        private readonly IBlockViewMovementAnimator _movementAnimator;
         private readonly Dictionary<IBlockModel, IBlockView> _blockToView;
 
         public BlockDrawingController(IBlockModelStorage blockModelStorage,
                                       IBlockViewBuilder blockViewBuilder,
                                       ILevelViewTransform viewTransform,
-                                      IBlockViewRotationAnimator rotationAnimator)
+                                      IBlockViewRotationAnimator rotationAnimator,
+                                      IBlockViewMovementAnimator movementAnimator)
         {
             _blockModelStorage = blockModelStorage;
             _blockViewBuilder = blockViewBuilder;
             _viewTransform = viewTransform;
             _rotationAnimator = rotationAnimator;
+            _movementAnimator = movementAnimator;
             _blockToView = new Dictionary<IBlockModel, IBlockView>();
 
             _blockModelStorage.OnBlockAdded += OnBlockAdded;
@@ -32,7 +35,7 @@ namespace Game.Core.Block
             var worldPos = _viewTransform.TransformPosition(block.Position);
             var view = _blockViewBuilder.BuildView(block);
             _blockToView[block] = view;
-            view.SetPosition(worldPos);
+            view.Position = worldPos;
             view.Rotation = block.Rotation;
             Subscribe(block);
         }
@@ -41,6 +44,7 @@ namespace Game.Core.Block
         {
             var view = _blockToView[block];
             _rotationAnimator.StopAnimation(view);
+            _movementAnimator.StopAnimation(view);
             view.Dispose();
             _blockToView.Remove(block);
             Unsubscribe(block);
@@ -66,7 +70,7 @@ namespace Game.Core.Block
         private void UpdateBlockPosition(IBlockModel block)
         {
             var worldPos = _viewTransform.TransformPosition(block.Position);
-            _blockToView[block].SetPosition(worldPos);
+            _movementAnimator.AnimateMovement(_blockToView[block], worldPos);
         }
 
         public void Dispose()

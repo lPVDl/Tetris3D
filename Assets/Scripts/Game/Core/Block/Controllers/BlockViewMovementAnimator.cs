@@ -4,34 +4,34 @@ using UnityEngine;
 
 namespace Game.Core.Block
 {
-    public class BlockViewRotationAnimator : IBlockViewRotationAnimator, IUpdatable
+    public class BlockViewMovementAnimator : IBlockViewMovementAnimator, IUpdatable
     {
         private struct AnimationData
         {
             public IBlockView View { get; set; }
-            public Quaternion StartRotation { get; set; }
-            public Quaternion EndRotation { get; set; }
+            public Vector3 StartPosition { get; set; }
+            public Vector3 EndPosition { get; set; }
             public float Time { get; set; }
         }
 
-        private const float AnimationTime = 0.2f;
+        private const float AnimationTime = 0.1f;
 
         private readonly List<AnimationData> _animations;
-
-        public BlockViewRotationAnimator()
+        
+        public BlockViewMovementAnimator()
         {
             _animations = new List<AnimationData>();
         }
 
-        public void AnimateRotation(IBlockView view, Quaternion targetRotation)
+        public void AnimateMovement(IBlockView view, Vector3 targetPosition)
         {
             StopAnimation(view);
 
             var data = new AnimationData()
             {
                 View = view,
-                StartRotation = view.Rotation,
-                EndRotation = targetRotation,
+                StartPosition = view.Position,
+                EndPosition = targetPosition,
                 Time = 0
             };
             _animations.Add(data);
@@ -45,7 +45,7 @@ namespace Game.Core.Block
                 anim.Time += deltaTime;
                 var progress = anim.Time / AnimationTime;
                 _animations[i] = anim;
-                anim.View.Rotation = Quaternion.Lerp(anim.StartRotation, anim.EndRotation, progress);
+                anim.View.Position = Vector3.Lerp(anim.StartPosition, anim.EndPosition, progress);
                 if (progress >= 1)
                     _animations.RemoveAt(i);
             }
