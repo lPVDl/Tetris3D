@@ -1,4 +1,5 @@
-﻿using Game.Core.GameCamera;
+﻿using Game.Common.Audio;
+using Game.Core.GameCamera;
 using System;
 using UnityEngine;
 
@@ -11,15 +12,17 @@ namespace Game.Core.BlockMotion
         private readonly IBlockMotionInputController _inputController;
         private readonly IGameCameraView _gameCamera;
         private readonly IBlockMotionController _motionController;
+        private readonly IAudioController _audioController;
 
         public BlockRotationHandler(IBlockMotionInputController inputController,
                                     IGameCameraView gameCamera,
-                                    IBlockMotionController motionController)
+                                    IBlockMotionController motionController,
+                                    IAudioController audioController)
         {
             _inputController = inputController;
             _gameCamera = gameCamera;
             _motionController = motionController;
-
+            _audioController = audioController;
             _inputController.RegisterListener(EBlockMotionEvent.RotateRight, OnRotateRight);
             _inputController.RegisterListener(EBlockMotionEvent.RotateLeft, OnRotateLeft);
             _inputController.RegisterListener(EBlockMotionEvent.RotateDown, OnRotateDown);
@@ -47,7 +50,9 @@ namespace Game.Core.BlockMotion
 
         private void TryApplyRotation(float angle, Vector3 axis)
         {
-            _motionController.TryRotateBlock(Quaternion.AngleAxis(angle, axis));
+            if (_motionController.TryRotateBlock(Quaternion.AngleAxis(angle, axis)))
+                _audioController.ReportEvent(EAudioEventType.BlockRotatedByPlayer);
+            
         }
 
         public void Dispose()

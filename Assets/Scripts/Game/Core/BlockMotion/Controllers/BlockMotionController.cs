@@ -26,6 +26,7 @@ namespace Game.Core.BlockMotion
                 return false;
 
             block.Position = newPosition;
+
             return true;
         }
 

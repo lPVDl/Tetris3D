@@ -1,4 +1,5 @@
-﻿using Game.Core.GameCamera;
+﻿using Game.Common.Audio;
+using Game.Core.GameCamera;
 using System;
 using UnityEngine;
 
@@ -11,28 +12,36 @@ namespace Game.Core.BlockMotion
         private readonly IBlockMotionInputController _inputController;
         private readonly IGameCameraView _gameCamera;
         private readonly IBlockMotionController _motionController;
+        private readonly IAudioController _audioController;
 
         public BlockMovementHandler(IBlockMotionInputController inputController,
                                     IGameCameraView gameCamera,
-                                    IBlockMotionController motionController)
+                                    IBlockMotionController motionController,
+                                    IAudioController audioController)
         {
             _inputController = inputController;
             _gameCamera = gameCamera;
             _motionController = motionController;
-
+            _audioController = audioController;
             _inputController.RegisterListener(EBlockMotionEvent.MoveForward, OnMoveForward);
             _inputController.RegisterListener(EBlockMotionEvent.MoveBackward, OnMoveBackward);
             _inputController.RegisterListener(EBlockMotionEvent.MoveLeft, OnMoveLeft);
             _inputController.RegisterListener(EBlockMotionEvent.MoveRight, OnMoveRight);
         }
 
-        private void OnMoveForward() => _motionController.TryMoveBlock(ComputeForwardDirection());
+        private void OnMoveForward() => TryMoveBlock(ComputeForwardDirection());
 
-        private void OnMoveBackward() => _motionController.TryMoveBlock(-ComputeForwardDirection());
+        private void OnMoveBackward() => TryMoveBlock(-ComputeForwardDirection());
 
-        private void OnMoveRight() => _motionController.TryMoveBlock(ComputeRightDirection());
+        private void OnMoveRight() => TryMoveBlock(ComputeRightDirection());
 
-        private void OnMoveLeft() => _motionController.TryMoveBlock(-ComputeRightDirection());
+        private void OnMoveLeft() => TryMoveBlock(-ComputeRightDirection());
+
+        private void TryMoveBlock(Vector3Int direction)
+        {
+            if (_motionController.TryMoveBlock(direction))
+                _audioController.ReportEvent(EAudioEventType.BlockMovedByPlayer);
+        }
 
         private Vector3Int ComputeForwardDirection()
         {

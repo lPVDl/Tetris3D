@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Common.Audio;
 using Game.Core.Level;
 using UnityEngine;
 
@@ -9,10 +10,13 @@ namespace Game.Core.BlockMerge
         public event Action<int> OnBlocksMerge;
 
         private readonly ILevelModel _level;
+        private readonly IAudioController _audioController;
 
-        public BlockMergeController(ILevelModel level)
+        public BlockMergeController(ILevelModel level,
+                                    IAudioController audioController)
         {
             _level = level;
+            _audioController = audioController;
         }
 
         public bool TryMergeBlocks()
@@ -32,6 +36,8 @@ namespace Game.Core.BlockMerge
                 MoveRow(i, i - delta);
 
              OnBlocksMerge?.Invoke(delta * _level.Size.x * _level.Size.z);
+
+            _audioController.ReportEvent(EAudioEventType.BlockMerged);
 
             return true;
         }
