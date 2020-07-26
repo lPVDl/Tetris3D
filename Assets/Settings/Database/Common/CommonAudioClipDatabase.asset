@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed705a818ee722409a774be7940cea4, type: 3}
   m_Name: CommonAudioClipDatabase
   m_EditorClassIdentifier: 
-  _clips: []
+  _clips:
+  - _clip: {fileID: 8300000, guid: c075567d5f5e0a345a2340342363977d, type: 3}
+    _eventType: 1
+  - _clip: {fileID: 8300000, guid: 60c1a92a0f6271b479086adcb3f4e323, type: 3}
+    _eventType: 2
+  - _clip: {fileID: 8300000, guid: c746be80c55d48549b1c7948e5d95afe, type: 3}
+    _eventType: 3
+  - _clip: {fileID: 8300000, guid: 6de035713ead29f4e8bed1103c3f2680, type: 3}
+    _eventType: 4
