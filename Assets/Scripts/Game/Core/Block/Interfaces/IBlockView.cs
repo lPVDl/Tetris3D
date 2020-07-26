@@ -5,9 +5,9 @@ namespace Game.Core.Block
 {
     public interface IBlockView : IDisposable
     {
-        void SetPosition(Vector3 position);
+        Quaternion Rotation { get; set; }
 
-        void SetRotation(Quaternion rotation);
+        void SetPosition(Vector3 position);
 
         void SetParent(Transform parent);
 

@@ -7,6 +7,12 @@ namespace Game.Core.BlockMesh
         [SerializeField] private MeshFilter _meshFilter;
         [SerializeField] private MeshRenderer _meshRenderer;
 
+        public Quaternion Rotation
+        {
+            get => transform.rotation;
+            set => transform.rotation = value;
+        }
+
         public void SetMesh(Mesh mesh)
         {
             _meshFilter.mesh = mesh;
@@ -20,11 +26,6 @@ namespace Game.Core.BlockMesh
         public void SetPosition(Vector3 position)
         {
             transform.position = position;
-        }
-
-        public void SetRotation(Quaternion rotation)
-        {
-            transform.rotation = rotation;
         }
 
         public void SetMaterial(Material material)

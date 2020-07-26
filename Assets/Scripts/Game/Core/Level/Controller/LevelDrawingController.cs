@@ -11,7 +11,6 @@ namespace Game.Core.Level
 
         private readonly ILevelModel _levelModel;
         private readonly IBlockMeshViewFactory _blockMeshFactory;
-        private readonly ILevelViewTransform _levelViewTransform;
         private readonly IBlockMeshBuilder _blockMeshBuilder;
 
         private IBlockMeshView _meshView;
@@ -19,13 +18,11 @@ namespace Game.Core.Level
         private bool _isDirty;
 
         public LevelDrawingController(ILevelModel levelModel,
-                                                  IBlockMeshViewFactory blockMeshFactory,
-                                                  ILevelViewTransform levelViewTransform,
-                                                  IBlockMeshBuilder blockMeshBuilder)
+                                      IBlockMeshViewFactory blockMeshFactory,
+                                      IBlockMeshBuilder blockMeshBuilder)
         {
             _levelModel = levelModel;
             _blockMeshFactory = blockMeshFactory;
-            _levelViewTransform = levelViewTransform;
             _blockMeshBuilder = blockMeshBuilder;
 
             _levelModel.OnBlockAdded += OnBlockAdded;
@@ -38,7 +35,7 @@ namespace Game.Core.Level
             _mesh = new Mesh();
             _meshView = _blockMeshFactory.CreateBlock();
             _meshView.SetPosition(Vector3.zero);
-            _meshView.SetRotation(Quaternion.identity);
+            _meshView.Rotation = Quaternion.identity;
             _meshView.SetMesh(_mesh);
             var size = _levelModel.Size;
             _meshView.SetPosition(new Vector3(-size.x / 2f + 0.5f, 0.5f, -size.z / 2f + 0.5f));

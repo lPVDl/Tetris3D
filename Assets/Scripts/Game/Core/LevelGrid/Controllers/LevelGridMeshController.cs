@@ -30,7 +30,7 @@ namespace Game.Core.LevelGrid
             var gridMesh = _gridMeshBuilder.Build(_levelModel.Size);
             var gridView = _blockMeshViewFactory.CreateBlock();
             gridView.SetPosition(new Vector3(0, _levelModel.Size.y / 2f, 0));
-            gridView.SetRotation(Quaternion.identity);
+            gridView.Rotation = Quaternion.identity;
             gridView.SetMaterial(_gridMaterial);
             gridView.SetMesh(gridMesh);
         }

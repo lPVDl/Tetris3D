@@ -12,6 +12,7 @@ namespace Game.Core.BlockGhost
         private readonly ILevelPhysicsController _levelPhysics;
         private readonly IBlockModelStorage _blockModelStorage;
         private readonly Material _ghostMaterial;
+        private readonly IBlockViewRotationAnimator _rotationAnimator;
 
         private IBlockView _ghostBlockView;
 
@@ -19,13 +20,15 @@ namespace Game.Core.BlockGhost
                                     ILevelViewTransform levelViewTransform,
                                     ILevelPhysicsController levelPhysics,
                                     IBlockModelStorage blockModelStorage,
-                                    Material ghostMaterial)
+                                    Material ghostMaterial,
+                                    IBlockViewRotationAnimator rotationAnimator)
         {
             _blockViewBuilder = blockViewBuilder;
             _levelViewTransform = levelViewTransform;
             _levelPhysics = levelPhysics;
             _blockModelStorage = blockModelStorage;
             _ghostMaterial = ghostMaterial;
+            _rotationAnimator = rotationAnimator;
 
             _blockModelStorage.OnBlockAdded += OnBlockAdded;
             _blockModelStorage.OnBlockRemoved += OnBlockRemoved;
@@ -33,17 +36,23 @@ namespace Game.Core.BlockGhost
 
         private void OnBlockAdded(IBlockModel block)
         {
+            var levelPos = ComputeGhostPosition(block);
+            var worldPos = _levelViewTransform.TransformPosition(levelPos);
+
+            _rotationAnimator.StopAnimation(_ghostBlockView);
             _ghostBlockView?.Dispose();
-            _ghostBlockView = null;
             _ghostBlockView = _blockViewBuilder.BuildView(block);
             _ghostBlockView.SetMaterial(_ghostMaterial);
-            UpdateGhostPositionRotation(block);
+            _ghostBlockView.SetPosition(worldPos);
+            _ghostBlockView.Rotation = block.Rotation;
+
             block.OnPositionChanged += UpdateGhostPositionRotation;
             block.OnRotationChanged += UpdateGhostPositionRotation;
         }
 
         private void OnBlockRemoved(IBlockModel block)
         {
+            _rotationAnimator.StopAnimation(_ghostBlockView);
             _ghostBlockView?.Dispose();
             _ghostBlockView = null;
             block.OnPositionChanged -= UpdateGhostPositionRotation;
@@ -55,7 +64,7 @@ namespace Game.Core.BlockGhost
             var levelPos = ComputeGhostPosition(block);
             var worldPos = _levelViewTransform.TransformPosition(levelPos);
             _ghostBlockView.SetPosition(worldPos);
-            _ghostBlockView.SetRotation(block.Rotation);
+            _rotationAnimator.AnimateRotation(_ghostBlockView, block.Rotation);
         }
 
         private Vector3Int ComputeGhostPosition(IBlockModel block)

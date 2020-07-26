@@ -19,6 +19,7 @@ namespace Game.Core.Block
             Container.BindInterfacesTo<BlockViewBuilder>().AsSingle();
             Container.BindInterfacesTo<BlockDrawingController>().AsSingle();
             Container.BindInterfacesTo<BlockShapeUtil>().AsSingle();
+            Container.BindInterfacesTo<BlockViewRotationAnimator>().AsSingle();
         }
     }
 }
