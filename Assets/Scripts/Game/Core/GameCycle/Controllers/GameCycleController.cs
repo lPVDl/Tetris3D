@@ -1,5 +1,6 @@
 ﻿using Game.Common.Coroutines;
 using Game.Common.GameEvents;
+using Game.Common.Logging;
 using Game.Core.BlockGravity;
 using Game.Core.BlockJoin;
 using Game.Core.BlockMerge;
@@ -7,7 +8,6 @@ using Game.Core.BlockSpawn;
 using Game.Core.Level;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Game.Core.GameCycle
 {
@@ -23,8 +23,9 @@ namespace Game.Core.GameCycle
         private readonly List<IGameFinishListener> _gameFinishListeners;
         private readonly List<IGameStartListener> _gameStartListeners;
         private readonly ILevelModel _levelModel;
+        private readonly LogModule _log;
 
-        private Coroutine _coroutine;
+        private UnityEngine.Coroutine _coroutine;
 
         public GameCycleController(ICoroutineManager coroutineManager,
                                    IBlockSpawnController spawnController,
@@ -33,7 +34,8 @@ namespace Game.Core.GameCycle
                                    IBlockMergeController mergeController,
                                    List<IGameFinishListener> gameFinishListeners,
                                    List<IGameStartListener> gameStartListeners,
-                                   ILevelModel levelModel)
+                                   ILevelModel levelModel,
+                                   ILogModuleFactory logModuleFactory)
         {
             _coroutineManager = coroutineManager;
             _spawnController = spawnController;
@@ -43,6 +45,7 @@ namespace Game.Core.GameCycle
             _gameFinishListeners = gameFinishListeners;
             _gameStartListeners = gameStartListeners;
             _levelModel = levelModel;
+            _log = logModuleFactory.Create(this);
         }
 
         public void Initialize()
@@ -68,15 +71,23 @@ namespace Game.Core.GameCycle
 
             yield return null;
 
+            _log.Info("Game started");
+
             while (_spawnController.TrySpawnBlock())
             {
-                while (_gravityController.TryApplyGravity(Time.deltaTime)) 
+                _log.Info("Block spawned");
+
+                while (_gravityController.TryApplyGravity(UnityEngine.Time.deltaTime)) 
                     yield return null;
+
+                _log.Info("Block dropped");
 
                 _joinController.JoinBlock();
 
                 _mergeController.TryMergeBlocks();
             }
+
+            _log.Info("Game over");
 
             foreach (var listener in _gameFinishListeners)
                 listener.OnGameFinish();

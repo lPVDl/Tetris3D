@@ -580,7 +580,8 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: PINGLE_ENABLE_LOG_INFO;PINGLE_ENABLE_LOG_WARNING;PINGLE_ENABLE_LOG_ERROR;PINGLE_ENABLE_LOG_ASSERT;PINGLE_ENABLE_LOG_EXCEPTION
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
